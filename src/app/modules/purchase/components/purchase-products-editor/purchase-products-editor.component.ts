@@ -7,6 +7,14 @@ import { Product } from 'src/app/modules/product/models/product.model';
   styleUrls: ['./purchase-products-editor.component.scss']
 })
 export class PurchaseProductsEditorComponent {
-  displayedColumns: string[] = ['title', 'price', 'retailPrice', 'purchaseDate', 'isSolded', 'isDelivered', 'actions'];
-  dataSource:Product[] = [];
+  displayedColumns: string[] = [
+    'title',
+    'price',
+    'retailPrice',
+    'purchaseDate',
+    'isSolded',
+    'isDelivered',
+    'actions'
+  ];
+  dataSource: Product[] = [];
 }

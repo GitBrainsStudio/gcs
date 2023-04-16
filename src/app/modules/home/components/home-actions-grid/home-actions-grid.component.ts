@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './home-actions-grid.component.html',
   styleUrls: ['./home-actions-grid.component.scss']
 })
-export class HomeActionsGridComponent {
-
-}
+export class HomeActionsGridComponent {}

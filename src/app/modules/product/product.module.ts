@@ -9,10 +9,13 @@ import { ProductsComponent } from './pages/products/products.component';
 import { LayoutModule } from '../layout/layout.module';
 import { ProductAddButtonComponent } from './components/product-add-button/product-add-button.component';
 
-
-
 @NgModule({
-  declarations: [ProductsComponent, ProductTableComponent, ProductEditorComponent, ProductAddButtonComponent],
+  declarations: [
+    ProductsComponent,
+    ProductTableComponent,
+    ProductEditorComponent,
+    ProductAddButtonComponent
+  ],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -23,4 +26,4 @@ import { ProductAddButtonComponent } from './components/product-add-button/produ
   ],
   exports: [ProductsComponent, ProductAddButtonComponent]
 })
-export class ProductModule { }
+export class ProductModule {}

@@ -9,20 +9,17 @@ import { PurchaseEditorComponent } from '../purchase-editor/purchase-editor.comp
   styleUrls: ['./purchase-add-button.component.scss']
 })
 export class PurchaseAddButtonComponent {
-  constructor(public dialog: MatDialog, private purchaseService:PurchaseService)
-  {
+  constructor(
+    public dialog: MatDialog,
+    private purchaseService: PurchaseService
+  ) {}
 
-  }
-
-  openPurchaseEditorDialog()
-  {
+  openPurchaseEditorDialog() {
     const dialogRef = this.dialog.open(PurchaseEditorComponent);
-    dialogRef.afterClosed().subscribe(purchase => 
-      {
-        if (purchase)
-        {
-          this.purchaseService.add(purchase);
-        }
-      })
+    dialogRef.afterClosed().subscribe(purchase => {
+      if (purchase) {
+        this.purchaseService.add(purchase);
+      }
+    });
   }
 }

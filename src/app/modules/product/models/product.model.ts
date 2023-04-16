@@ -1,9 +1,8 @@
-import { PurchaseBrief } from "../../purchase/models/purchase-brief.model";
+import { PurchaseBrief } from '../../purchase/models/purchase-brief.model';
 
-export interface Product
-{
-    Id:string;
-    Title:string;
-    PurchasePrice:string;
-    PurchaseBrief:PurchaseBrief;
+export interface Product {
+  Id: string;
+  Title: string;
+  PurchasePrice: string;
+  PurchaseBrief: PurchaseBrief;
 }

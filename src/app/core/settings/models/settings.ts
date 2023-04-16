@@ -1,3 +1,3 @@
 export class Settings {
-    public static ApplicationTitle = 'GCS | Складской учёт';
+  public static ApplicationTitle = 'GCS | Складской учёт';
 }

@@ -15,9 +15,18 @@ import { PurchaseStatusComponent } from './components/purchase-status/purchase-s
 import { PurchaseStatusPipe } from './pipes/purchase-status.pipe';
 import { PurchaseProductEditorComponent } from './components/purchase-product-editor/purchase-product-editor.component';
 
-
 @NgModule({
-  declarations: [PurchaseTableComponent, PurchasesComponent, PurchaseAddButtonComponent, PurchaseEditorComponent, PurchaseProductsEditorComponent, PurchaseProductTableComponent, PurchaseStatusComponent, PurchaseStatusPipe, PurchaseProductEditorComponent],
+  declarations: [
+    PurchaseTableComponent,
+    PurchasesComponent,
+    PurchaseAddButtonComponent,
+    PurchaseEditorComponent,
+    PurchaseProductsEditorComponent,
+    PurchaseProductTableComponent,
+    PurchaseStatusComponent,
+    PurchaseStatusPipe,
+    PurchaseProductEditorComponent
+  ],
   imports: [
     CommonModule,
     PurchaseRoutingModule,
@@ -29,4 +38,4 @@ import { PurchaseProductEditorComponent } from './components/purchase-product-ed
   ],
   exports: [PurchaseTableComponent, PurchasesComponent]
 })
-export class PurchaseModule { }
+export class PurchaseModule {}

@@ -10,27 +10,27 @@ import { PurchaseProductEditorComponent } from '../purchase-product-editor/purch
 })
 export class PurchaseProductTableComponent {
   displayedColumns: string[] = ['title', 'purchasePrice', 'count', 'actions'];
-  @Input() dataSource:PurchaseProduct[] = [];
-  @Output() updated = new EventEmitter<PurchaseProduct[]>;
+  @Input() dataSource: PurchaseProduct[] = [];
+  @Output() updated = new EventEmitter<PurchaseProduct[]>();
 
-  constructor(private matDialog:MatDialog)
-  {
-    
-  }
+  constructor(private matDialog: MatDialog) {}
 
-  purchaseProductDelete(purchaseProduct:PurchaseProduct)
-  {
-    this.dataSource = this.dataSource.filter(x => x.Product.Id != purchaseProduct.Product.Id);
+  purchaseProductDelete(purchaseProduct: PurchaseProduct) {
+    this.dataSource = this.dataSource.filter(
+      x => x.Product.Id != purchaseProduct.Product.Id
+    );
     this.updated.next(this.dataSource);
   }
 
-  openPurchaseProductEditorDialog(purchaseProduct:PurchaseProduct)
-  {
-    const dialogRef = this.matDialog.open(PurchaseProductEditorComponent, { data: purchaseProduct });
-    dialogRef.afterClosed().subscribe((purchaseProduct:PurchaseProduct) => {
-      if (purchaseProduct)
-      {
-        this.dataSource = this.dataSource.filter(x => x.Product.Id != purchaseProduct.Product.Id);
+  openPurchaseProductEditorDialog(purchaseProduct: PurchaseProduct) {
+    const dialogRef = this.matDialog.open(PurchaseProductEditorComponent, {
+      data: purchaseProduct
+    });
+    dialogRef.afterClosed().subscribe((purchaseProduct: PurchaseProduct) => {
+      if (purchaseProduct) {
+        this.dataSource = this.dataSource.filter(
+          x => x.Product.Id != purchaseProduct.Product.Id
+        );
         this.dataSource.push(purchaseProduct);
         this.updated.next(this.dataSource);
       }

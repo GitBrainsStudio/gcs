@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Settings } from "../models/settings";
+import { Injectable } from '@angular/core';
+import { Settings } from '../models/settings';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class SettingsSerivce {
-    get applicationTitle() : string {
-        return Settings.ApplicationTitle;
-    }
+  get applicationTitle(): string {
+    return Settings.ApplicationTitle;
+  }
 }

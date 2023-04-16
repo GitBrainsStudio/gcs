@@ -13,58 +13,65 @@ import { PurchaseEditorComponent } from '../purchase-editor/purchase-editor.comp
   styleUrls: ['./purchase-table.component.scss']
 })
 export class PurchaseTableComponent {
-  displayedColumns: string[] = ['title', 'date', 'orderNumber', 'status', 'productsCount', 'actions'];
-  dataSource:Purchase[] = [];
+  displayedColumns: string[] = [
+    'title',
+    'date',
+    'orderNumber',
+    'status',
+    'productsCount',
+    'actions'
+  ];
+  dataSource: Purchase[] = [];
   status = PurchaseStatus;
 
   constructor(
-    public purchaseService:PurchaseService,
-    private purchaseEvents:PurchaseEvents,
-    private matDialog:MatDialog)
-  {
+    public purchaseService: PurchaseService,
+    private purchaseEvents: PurchaseEvents,
+    private matDialog: MatDialog
+  ) {}
 
-  }
-  
   ngOnInit(): void {
-    this.purchaseService.getAll()
+    this.purchaseService.getAll().subscribe({
+      next: v => {
+        this.dataSource = v;
+      }
+    });
+
+    merge(
+      this.purchaseEvents.added,
+      this.purchaseEvents.updated,
+      this.purchaseEvents.deleted
+    )
+      .pipe(mergeMap(() => this.purchaseService.getAll()))
       .subscribe({
         next: v => {
           this.dataSource = v;
         }
       });
-
-    merge(this.purchaseEvents.added, this.purchaseEvents.updated, this.purchaseEvents.deleted)
-    .pipe(mergeMap(() => this.purchaseService.getAll()))
-    .subscribe({
-      next: v => {
-        this.dataSource = v;
-      } 
-    }); 
   }
 
-  purchaseRemove(purchase:Purchase)
-  {
+  purchaseRemove(purchase: Purchase) {
     this.purchaseService.delete(purchase);
     this.purchaseEvents.deleted.next(purchase);
   }
 
-  openPurchaseEditorDialog(purchase:Purchase)
-  {
-    const dialogRef = this.matDialog.open(PurchaseEditorComponent, { data: purchase});
+  openPurchaseEditorDialog(purchase: Purchase) {
+    const dialogRef = this.matDialog.open(PurchaseEditorComponent, {
+      data: purchase
+    });
     dialogRef.afterClosed().subscribe(purchase => {
-      if (purchase)
-      {
+      if (purchase) {
         this.purchaseService.update(purchase);
         this.purchaseEvents.updated.next(purchase);
       }
     });
   }
 
-  getProductsCount(purchase:Purchase) {
+  getProductsCount(purchase: Purchase) {
     let sum = 0;
     purchase.Products.forEach(element => {
-      sum = sum + element.Count
+      sum = sum + element.Count;
     });
-    return sum
+    return sum;
   }
 }

@@ -7,7 +7,5 @@ import { SettingsSerivce } from 'src/app/core/settings/services/settings.service
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(public settingsService:SettingsSerivce) {
-    
-  }
+  constructor(public settingsService: SettingsSerivce) {}
 }

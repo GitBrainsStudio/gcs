@@ -11,42 +11,48 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./product-table.component.scss']
 })
 export class ProductTableComponent implements OnInit {
-
-  displayedColumns: string[] = ['title', 'purchasePrice', 'purchaseDate', 'orderNumber', 'actions'];
-  dataSource:Product[] = [];
-  _purchaseService:PurchaseService | null = null;
+  displayedColumns: string[] = [
+    'title',
+    'purchasePrice',
+    'purchaseDate',
+    'orderNumber',
+    'actions'
+  ];
+  dataSource: Product[] = [];
+  _purchaseService: PurchaseService | null = null;
 
   constructor(
-    public productService:ProductService,
-    private productEvents:ProductEvents,
-    purchaseService:PurchaseService)
-  {
+    public productService: ProductService,
+    private productEvents: ProductEvents,
+    purchaseService: PurchaseService
+  ) {
     this._purchaseService = purchaseService;
   }
-  
-  ngOnInit(): void {
 
-    this.productService.getAll()
+  ngOnInit(): void {
+    this.productService.getAll().subscribe({
+      next: v => {
+        this.dataSource = v;
+        /* v.forEach(element => {
+            this.productService.delete(element)
+          }); */
+      }
+    });
+
+    merge(
+      this.productEvents.added,
+      this.productEvents.updated,
+      this.productEvents.deleted
+    )
+      .pipe(mergeMap(() => this.productService.getAll()))
       .subscribe({
         next: v => {
           this.dataSource = v;
-          /* v.forEach(element => {
-            this.productService.delete(element)
-          }); */
         }
       });
-
-    merge(this.productEvents.added, this.productEvents.updated, this.productEvents.deleted)
-    .pipe(mergeMap(() => this.productService.getAll()))
-    .subscribe({
-      next: v => {
-        this.dataSource = v;
-      } 
-    }); 
   }
 
-  productRemove(product:Product)
-  {
+  productRemove(product: Product) {
     this.productService.delete(product);
     this.productEvents.deleted.next(product);
   }

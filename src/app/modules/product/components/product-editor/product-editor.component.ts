@@ -11,18 +11,15 @@ import { Product } from '../../models/product.model';
 })
 export class ProductEditorComponent implements OnInit {
   constructor(
-    private formBuilder:FormBuilder, 
-    private matDialogRef:MatDialogRef<ProductEditorComponent>,
-    private guidService:GuidService,
-    @Inject(MAT_DIALOG_DATA) public product: Product)
-    {
-
-    }
+    private formBuilder: FormBuilder,
+    private matDialogRef: MatDialogRef<ProductEditorComponent>,
+    private guidService: GuidService,
+    @Inject(MAT_DIALOG_DATA) public product: Product
+  ) {}
 
   ngOnInit(): void {
-    if (this.product)
-    {
-      this.form.patchValue(this.product)
+    if (this.product) {
+      this.form.patchValue(this.product);
     }
   }
 
@@ -32,29 +29,23 @@ export class ProductEditorComponent implements OnInit {
   });
   formLoading: boolean = false;
 
-  formSubmit()
-  {    
-    if (this.form.invalid)
-    {
+  formSubmit() {
+    if (this.form.invalid) {
       return;
     }
-    
+
     const product = this.form.getRawValue() as Product;
 
-    if (!this.product)
-    {
+    if (!this.product) {
       product.Id = this.guidService.generate();
       this.matDialogRef.close(product);
-    }
-    else
-    {
+    } else {
       product.Id = this.product.Id;
       this.matDialogRef.close(product);
     }
   }
 
-  closeDialog()
-  {
+  closeDialog() {
     this.matDialogRef.close();
   }
 }

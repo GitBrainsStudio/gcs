@@ -8,10 +8,7 @@ import { MaterialModule } from '../material/material.module';
 import { HomeActionsGridComponent } from './components/home-actions-grid/home-actions-grid.component';
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    HomeActionsGridComponent
-  ],
+  declarations: [HomeComponent, HomeActionsGridComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -22,4 +19,4 @@ import { HomeActionsGridComponent } from './components/home-actions-grid/home-ac
   providers: [],
   bootstrap: [HomeComponent]
 })
-export class HomeModule { }
+export class HomeModule {}

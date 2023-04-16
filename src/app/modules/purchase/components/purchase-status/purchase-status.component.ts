@@ -7,6 +7,5 @@ import { PurchaseStatus } from '../../enums/purchase-status.enum';
   styleUrls: ['./purchase-status.component.scss']
 })
 export class PurchaseStatusComponent {
-
-  @Input() value:PurchaseStatus = PurchaseStatus.Unknown;
+  @Input() value: PurchaseStatus = PurchaseStatus.Unknown;
 }

@@ -8,13 +8,9 @@ import { ProductEditorComponent } from '../product-editor/product-editor.compone
   styleUrls: ['./product-add-button.component.scss']
 })
 export class ProductAddButtonComponent {
-  constructor(public dialog: MatDialog)
-  {
+  constructor(public dialog: MatDialog) {}
 
-  }
-
-  openProductEditorDialog()
-  {
+  openProductEditorDialog() {
     const dialogRef = this.dialog.open(ProductEditorComponent);
   }
 }

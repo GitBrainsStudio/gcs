@@ -1,10 +1,9 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { Purchase } from "../models/purchase.model";
+import { EventEmitter, Injectable } from '@angular/core';
+import { Purchase } from '../models/purchase.model';
 
-@Injectable({providedIn:'root'})
-export class PurchaseEvents
-{
-    added = new EventEmitter<Purchase>();
-    deleted = new EventEmitter<Purchase>();
-    updated = new EventEmitter<Purchase>();
+@Injectable({ providedIn: 'root' })
+export class PurchaseEvents {
+  added = new EventEmitter<Purchase>();
+  deleted = new EventEmitter<Purchase>();
+  updated = new EventEmitter<Purchase>();
 }

@@ -1,15 +1,14 @@
 <mat-toolbar *ngIf="title" color="primary" class="main-toolbar">
-    <div class="main-toolbar__left">
-        <button mat-icon-button class="main-toolbar__back" [routerLink]="['']">
-            <mat-icon>arrow_back</mat-icon>
-        </button>
-        <div class="main-toolbar__title">
-            {{title}}  
-        </div>
+  <div class="main-toolbar__left">
+    <button mat-icon-button class="main-toolbar__back" [routerLink]="['']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="main-toolbar__title">
+      {{ title }}
     </div>
-    <ng-content select="#action"></ng-content>
+  </div>
+  <ng-content select="#action"></ng-content>
 </mat-toolbar>
 <div class="main-content">
-    <ng-content select="#content"></ng-content>
+  <ng-content select="#content"></ng-content>
 </div>
-
