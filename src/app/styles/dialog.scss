@@ -1,0 +1,47 @@
+.dialog-wrapper
+{
+    max-width: '100vw';
+    max-height: '100vh';
+    width: '80%';
+}
+
+.dialog__toolbar
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialog__body
+{
+    padding: 10px;
+}
+
+.dialog__form
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog__actions
+{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.dialog__mat-step-wrapper
+{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.dialog__mat-step-actions
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}

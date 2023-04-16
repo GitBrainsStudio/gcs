@@ -1,0 +1,7 @@
+@import '@angular/material/theming';
+
+.header-toolbar
+{
+    @include mat-elevation(4);
+    position: relative;
+}

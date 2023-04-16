@@ -1,0 +1,32 @@
+<div class="dialog">
+    <mat-toolbar class="dialog__toolbar" color="primary">
+        Новый товар
+        <button mat-icon-button (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+    </mat-toolbar>
+    <div class="dialog__body">
+        <form
+      class="dialog__form"
+      [formGroup]="form"
+      (keyup.enter)="formSubmit()">
+      <mat-form-field appearance="outline" class="am-dialog__form-field">
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="Title" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="am-dialog__form-field">
+        <mat-label>Закупочная стоимость</mat-label>
+        <input matInput formControlName="PurchasePrice" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="am-dialog__form-field">
+        <mat-label>Количество</mat-label>
+        <input matInput formControlName="Count" />
+      </mat-form-field>
+    </form>
+    </div>
+    <div class="dialog__actions">
+        <button mat-raised-button (click)="formSubmit()">
+            Добавить
+        </button>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+.main-content
+{
+    padding: 16px;
+}
+
+.main-toolbar,
+.main-toolbar__left
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-toolbar__back
+{
+    margin-right: 5px;
+}
+
+.main-toolbar__title
+{
+    margin-bottom: -3px;
+}
