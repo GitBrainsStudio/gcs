@@ -42,6 +42,12 @@ export class PurchaseService {
     return of(this._purchases);
   }
 
+  getById(id: string): Observable<Purchase | undefined> {
+    console.log(id);
+    this._purchases = this.getPurchasesFromLocalStorage();
+    return of(this._purchases.find(x => x.Id == id));
+  }
+
   delete(purchase: Purchase) {
     purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
       this._productService?.deleteByPurchaseProductId(purchaseProduct.Id);

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { merge, mergeMap } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { merge, mergeMap, switchMap } from 'rxjs';
+import { PurchaseEditorComponent } from 'src/app/modules/purchase/components/purchase-editor/purchase-editor.component';
 import { PurchaseService } from 'src/app/modules/purchase/services/purchase.service';
 import { ProductEvents } from '../../events/product.events';
 import { Product } from '../../models/product.model';
@@ -24,7 +26,8 @@ export class ProductTableComponent implements OnInit {
   constructor(
     public productService: ProductService,
     private productEvents: ProductEvents,
-    purchaseService: PurchaseService
+    purchaseService: PurchaseService,
+    private matDialog: MatDialog
   ) {
     this._purchaseService = purchaseService;
   }
@@ -49,8 +52,17 @@ export class ProductTableComponent implements OnInit {
       });
   }
 
-  productRemove(product: Product) {
+  productDelete(product: Product) {
     this.productService.delete(product);
-    this.productEvents.deleted.next(product);
+  }
+
+  openPurchaseEditorDialog(product: Product) {
+    this._purchaseService?.getById(product.PurchaseBrief.Id).subscribe({
+      next: v => {
+        const dialogRef = this.matDialog.open(PurchaseEditorComponent, {
+          data: v
+        });
+      }
+    });
   }
 }

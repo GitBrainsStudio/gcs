@@ -40,8 +40,9 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>Закупка</button>
-          <button mat-menu-item>Продажа</button>
+          <button mat-menu-item (click)="openPurchaseEditorDialog(element)">
+            Подробнее о закупке
+          </button>
         </mat-menu>
       </td>
     </ng-container>

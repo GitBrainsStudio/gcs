@@ -46,25 +46,34 @@
             Подробнее
           </button>
           <button mat-menu-item [matMenuTriggerFor]="changeStatusMenu">
-            Изменить статус
+            Сменить статус на
           </button>
 
           <mat-menu #changeStatusMenu="matMenu">
-            <button mat-menu-item *ngIf="element.Status !== status.InProgress">
+            <button
+              mat-menu-item
+              *ngIf="element.Status !== status.InProgress"
+              (click)="updatePurchaseStatus(element, status.InProgress)">
               <app-purchase-status
                 [value]="status.InProgress"></app-purchase-status>
             </button>
-            <button mat-menu-item *ngIf="element.Status !== status.Shipped">
+            <button
+              mat-menu-item
+              *ngIf="element.Status !== status.Shipped"
+              (click)="updatePurchaseStatus(element, status.Shipped)">
               <app-purchase-status
                 [value]="status.Shipped"></app-purchase-status>
             </button>
-            <button mat-menu-item *ngIf="element.Status !== status.Arrived">
+            <button
+              mat-menu-item
+              *ngIf="element.Status !== status.Arrived"
+              (click)="updatePurchaseStatus(element, status.Arrived)">
               <app-purchase-status
                 [value]="status.Arrived"></app-purchase-status>
             </button>
           </mat-menu>
 
-          <button mat-menu-item (click)="purchaseRemove(element)">
+          <button mat-menu-item (click)="purchaseDelete(element)">
             Удалить
           </button>
         </mat-menu>

@@ -41,6 +41,7 @@ export class PurchaseEditorComponent implements OnInit {
   }
 
   mainFormGroup = this.formBuilder.group({
+    Id: [this.guidService.generate(), [Validators.required]],
     Title: ['', [Validators.required]],
     Date: ['', Validators.required],
     OrderNumber: ['', [Validators.required]],

@@ -50,9 +50,8 @@ export class PurchaseTableComponent implements OnInit {
       });
   }
 
-  purchaseRemove(purchase: Purchase) {
+  purchaseDelete(purchase: Purchase) {
     this.purchaseService.delete(purchase);
-    this.purchaseEvents.deleted.next(purchase);
   }
 
   openPurchaseEditorDialog(purchase: Purchase) {
@@ -62,7 +61,6 @@ export class PurchaseTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(purchase => {
       if (purchase) {
         this.purchaseService.update(purchase);
-        this.purchaseEvents.updated.next(purchase);
       }
     });
   }
@@ -73,5 +71,10 @@ export class PurchaseTableComponent implements OnInit {
       sum = sum + element.Count;
     });
     return sum;
+  }
+
+  updatePurchaseStatus(purchase: Purchase, status: PurchaseStatus) {
+    purchase.Status = status;
+    this.purchaseService.update(purchase);
   }
 }
