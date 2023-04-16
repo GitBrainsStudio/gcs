@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { merge, mergeMap, retry } from 'rxjs';
 import { PurchaseStatus } from '../../enums/purchase-status.enum';
@@ -12,7 +12,7 @@ import { PurchaseEditorComponent } from '../purchase-editor/purchase-editor.comp
   templateUrl: './purchase-table.component.html',
   styleUrls: ['./purchase-table.component.scss']
 })
-export class PurchaseTableComponent {
+export class PurchaseTableComponent implements OnInit {
   displayedColumns: string[] = [
     'title',
     'date',

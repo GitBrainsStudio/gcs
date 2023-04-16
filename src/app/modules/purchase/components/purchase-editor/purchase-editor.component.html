@@ -51,7 +51,7 @@
       <mat-step [stepControl]="productsFormGroup">
         <div class="dialog__mat-step-wrapper">
           <ng-template matStepLabel>Какие товары закупаем?</ng-template>
-          <ng-container *ngIf="productsFormArray.length == 0"
+          <ng-container *ngIf="productsFormArray.length === 0"
             >Добавьте хотя бы один товар в закупку</ng-container
           >
           <app-purchase-product-table

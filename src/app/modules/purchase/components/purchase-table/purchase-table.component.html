@@ -50,15 +50,15 @@
           </button>
 
           <mat-menu #changeStatusMenu="matMenu">
-            <button mat-menu-item *ngIf="element.Status != status.InProgress">
+            <button mat-menu-item *ngIf="element.Status !== status.InProgress">
               <app-purchase-status
                 [value]="status.InProgress"></app-purchase-status>
             </button>
-            <button mat-menu-item *ngIf="element.Status != status.Shipped">
+            <button mat-menu-item *ngIf="element.Status !== status.Shipped">
               <app-purchase-status
                 [value]="status.Shipped"></app-purchase-status>
             </button>
-            <button mat-menu-item *ngIf="element.Status != status.Arrived">
+            <button mat-menu-item *ngIf="element.Status !== status.Arrived">
               <app-purchase-status
                 [value]="status.Arrived"></app-purchase-status>
             </button>
