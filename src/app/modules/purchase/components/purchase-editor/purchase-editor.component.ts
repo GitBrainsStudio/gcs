@@ -94,8 +94,6 @@ export class PurchaseEditorComponent implements OnInit {
         purchaseProduct.Product.PurchaseBrief =
           this.mainFormGroup.getRawValue() as PurchaseBrief;
         this.productsFormArray.push(new FormControl(purchaseProduct));
-
-        console.log(purchaseProduct);
       }
     });
   }

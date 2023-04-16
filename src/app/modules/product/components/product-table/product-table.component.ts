@@ -33,10 +33,6 @@ export class ProductTableComponent implements OnInit {
     this.productService.getAll().subscribe({
       next: v => {
         this.dataSource = v;
-        console.log(v);
-        /* v.forEach(element => {
-          this.productService.delete(element);
-        }); */
       }
     });
 

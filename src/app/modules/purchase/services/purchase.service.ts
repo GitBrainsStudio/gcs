@@ -43,7 +43,10 @@ export class PurchaseService {
   }
 
   delete(purchase: Purchase) {
-    purchase.Products.map(x => this._productService?.delete(x.Product));
+    purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
+      this._productService?.deleteByPurchaseProductId(purchaseProduct.Id);
+    });
+
     this._purchases = this._purchases.filter(x => x.Id != purchase.Id);
     this.updatePurchasesLocalStorage();
     this._purchaseEvents?.deleted.next(purchase);
