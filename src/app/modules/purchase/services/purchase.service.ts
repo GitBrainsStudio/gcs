@@ -50,22 +50,18 @@ export class PurchaseService {
   }
 
   update(purchase: Purchase) {
-    console.log(purchase);
-
     purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
-      for (let index = 0; index < purchaseProduct.Count; index++) {
-        this._productService?.delete(purchaseProduct.Product);
-      }
+      this._productService?.deleteByPurchaseProductId(purchaseProduct.Id);
     });
 
     this._purchases = this._purchases.filter(x => x.Id != purchase.Id);
 
-    /* purchase.Products.forEach((purchaseProduct:PurchaseProduct) => {
-            for (let index = 0; index < purchaseProduct.Count; index++) {
-                purchaseProduct.Product.Id = this._guidService?.generate() ?? '';
-                this._productService?.add(purchaseProduct.Product)
-            }
-        }); */
+    purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
+      for (let index = 0; index < purchaseProduct.Count; index++) {
+        purchaseProduct.Product.Id = this._guidService?.generate() ?? '';
+        this._productService?.add(purchaseProduct.Product);
+      }
+    });
 
     this._purchases.push(purchase);
     this.updatePurchasesLocalStorage();

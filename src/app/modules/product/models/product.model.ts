@@ -5,4 +5,5 @@ export interface Product {
   Title: string;
   PurchasePrice: string;
   PurchaseBrief: PurchaseBrief;
+  PurchaseProductId: string;
 }

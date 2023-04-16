@@ -59,12 +59,13 @@ export class PurchaseProductEditorComponent implements OnInit {
     if (!this.purchaseProduct) {
       purchaseProduct.Id = this.guidService.generate();
       purchaseProduct.Product.Id = this.guidService.generate();
-      this.matDialogRef.close(purchaseProduct);
     } else {
       purchaseProduct.Id = this.purchaseProduct.Id;
       purchaseProduct.Product.Id = this.purchaseProduct.Product.Id;
-      this.matDialogRef.close(purchaseProduct);
     }
+
+    purchaseProduct.Product.PurchaseProductId = purchaseProduct.Id;
+    this.matDialogRef.close(purchaseProduct);
   }
 
   closeDialog() {

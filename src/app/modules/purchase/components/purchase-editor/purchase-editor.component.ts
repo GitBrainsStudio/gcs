@@ -74,7 +74,8 @@ export class PurchaseEditorComponent implements OnInit {
       ?.getRawValue();
 
     if (this.purchase) {
-      console.log(purchase);
+      purchase.Id = this.purchase.Id;
+      this.updatePurchaseProductsFormArray(this.purchase.Products);
     } else {
       purchase.Id = this.guidService.generate();
     }
@@ -93,11 +94,17 @@ export class PurchaseEditorComponent implements OnInit {
         purchaseProduct.Product.PurchaseBrief =
           this.mainFormGroup.getRawValue() as PurchaseBrief;
         this.productsFormArray.push(new FormControl(purchaseProduct));
+
+        console.log(purchaseProduct);
       }
     });
   }
 
   updatePurchaseProductsFormArray(products: PurchaseProduct[]) {
+    products.map(v => {
+      v.Product.PurchaseBrief =
+        this.mainFormGroup.getRawValue() as PurchaseBrief;
+    });
     this.productsFormArray.clear();
     products.map(v => this.productsFormArray.push(new FormControl(v)));
   }

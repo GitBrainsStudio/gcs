@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { GuidService } from 'src/app/shared/services/guid.service';
 import { ProductEvents } from '../events/product.events';
 import { Product } from '../models/product.model';
 
@@ -8,12 +9,15 @@ export class ProductService {
   private _storageKey = 'products';
   private _products: Product[] = [];
   private _productEvents: ProductEvents | null = null;
+  private _guidService: GuidService | null = null;
 
-  constructor(productEvents: ProductEvents) {
+  constructor(productEvents: ProductEvents, guidService: GuidService) {
     this._productEvents = productEvents;
+    this._guidService = guidService;
   }
 
   add(product: Product) {
+    product.Id = this._guidService?.generate() ?? '';
     this._products.push(product);
     this.updateProductsLocalStorage();
     this._productEvents?.added.next(product);
@@ -28,6 +32,14 @@ export class ProductService {
     this._products = this._products.filter(x => x.Id != product.Id);
     this.updateProductsLocalStorage();
     this._productEvents?.deleted.next(product);
+  }
+
+  deleteByPurchaseProductId(purchaseProductId: string) {
+    this._products = this._products.filter(
+      x => x.PurchaseProductId != purchaseProductId
+    );
+    this.updateProductsLocalStorage(); /* 
+    this._productEvents?.deleted.next(); */
   }
 
   update(product: Product) {
