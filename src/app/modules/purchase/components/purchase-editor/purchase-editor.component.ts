@@ -11,8 +11,6 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
-import { ProductEditorComponent } from 'src/app/modules/product/components/product-editor/product-editor.component';
-import { Product } from 'src/app/modules/product/models/product.model';
 import { EnumHelper } from 'src/app/shared/helpers/enum.helper';
 import { GuidService } from 'src/app/shared/services/guid.service';
 import { PurchaseStatus } from '../../enums/purchase-status.enum';
@@ -29,7 +27,7 @@ import { PurchaseProductEditorComponent } from '../purchase-product-editor/purch
 export class PurchaseEditorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<ProductEditorComponent>,
+    private matDialogRef: MatDialogRef<PurchaseEditorComponent>,
     private guidService: GuidService,
     private matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public purchase: Purchase

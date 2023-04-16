@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProductEditorComponent } from 'src/app/modules/product/components/product-editor/product-editor.component';
-import { Product } from 'src/app/modules/product/models/product.model';
 import { GuidService } from 'src/app/shared/services/guid.service';
 import { PurchaseProduct } from '../../models/purchase-product.model';
 
@@ -14,7 +12,7 @@ import { PurchaseProduct } from '../../models/purchase-product.model';
 export class PurchaseProductEditorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<ProductEditorComponent>,
+    private matDialogRef: MatDialogRef<PurchaseProductEditorComponent>,
     private guidService: GuidService,
     @Inject(MAT_DIALOG_DATA) public purchaseProduct: PurchaseProduct
   ) {}
@@ -34,13 +32,13 @@ export class PurchaseProductEditorComponent implements OnInit {
       nonNullable: true,
       validators: [Validators.required]
     }),
-    PurchasePrice: new FormControl('', {
+    PurchasePrice: new FormControl(0, {
       nonNullable: true,
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.pattern('^[0-9]*$')]
     }),
     Count: new FormControl(1, {
       nonNullable: true,
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.pattern('^[0-9]*$')]
     })
   });
   formLoading: boolean = false;
