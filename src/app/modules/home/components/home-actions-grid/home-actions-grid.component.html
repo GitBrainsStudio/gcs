@@ -1,5 +1,5 @@
-<div class="grid">
-  <mat-card class="grid__item-6 grid__item-sm-12">
+<app-grid [desktop]="6">
+  <mat-card grid-item>
     <mat-card-header>
       <mat-card-title>Закупки</mat-card-title>
       <mat-card-subtitle
@@ -13,7 +13,7 @@
       </button>
     </mat-card-actions>
   </mat-card>
-  <mat-card class="grid__item-6 grid__item-sm-12">
+  <mat-card grid-item>
     <mat-card-header>
       <mat-card-title>Товары</mat-card-title>
       <mat-card-subtitle
@@ -27,4 +27,18 @@
       </button>
     </mat-card-actions>
   </mat-card>
-</div>
+  <mat-card grid-item>
+    <mat-card-header>
+      <mat-card-title>Продажи</mat-card-title>
+      <mat-card-subtitle
+        >Добавление информации о новых продажах и просмотр сведений о
+        текущих</mat-card-subtitle
+      >
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" [routerLink]="['/sales']">
+        Перейти
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</app-grid>

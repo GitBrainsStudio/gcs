@@ -1,27 +1,15 @@
-<div class="dialog">
-  <mat-toolbar class="dialog__toolbar" color="primary">
-    <ng-container *ngIf="purchase; else default"> Закупка </ng-container>
-    <ng-template #default> Новая закупка </ng-template>
-    <button mat-icon-button (click)="closeDialog()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-toolbar>
-  <div class="dialog__body">
+<app-dialog title="Закупка" (closed)="closeDialog()">
+  <app-dialog-body>
     <mat-vertical-stepper [linear]="true">
       <mat-step [stepControl]="mainFormGroup">
-        <div class="dialog__mat-step-wrapper">
-          <form
-            class="dialog__form"
-            [formGroup]="mainFormGroup"
-            (keyup.enter)="formSubmit()">
-            <ng-template matStepLabel
-              >Основная информация по закупке</ng-template
-            >
-            <mat-form-field appearance="outline" class="am-dialog__form-field">
+        <app-wrapper [marginTop]="10">
+          <ng-template matStepLabel>Основная информация по закупке</ng-template>
+          <app-form [formGroup]="mainFormGroup">
+            <mat-form-field appearance="outline" form-field>
               <mat-label>Заметка</mat-label>
               <input matInput formControlName="Title" />
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" form-field>
               <mat-label>Дата закупки</mat-label>
               <input matInput [matDatepicker]="picker" formControlName="Date" />
               <mat-datepicker-toggle
@@ -29,11 +17,11 @@
                 [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="am-dialog__form-field">
+            <mat-form-field appearance="outline" form-field>
               <mat-label>Номер заказа</mat-label>
               <input matInput formControlName="OrderNumber" />
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" form-field>
               <mat-label>Текущий статус</mat-label>
               <mat-select formControlName="Status">
                 <mat-option
@@ -42,12 +30,12 @@
                   {{ statusKey | purchaseStatus }}
                 </mat-option>
               </mat-select>
-            </mat-form-field>
-          </form>
-        </div>
+            </mat-form-field></app-form
+          >
+        </app-wrapper>
       </mat-step>
       <mat-step [stepControl]="productsFormGroup">
-        <div class="dialog__mat-step-wrapper">
+        <app-wrapper textAlign="center" [marginTop]="20">
           <ng-template matStepLabel>Какие товары закупаем?</ng-template>
           <ng-container *ngIf="productsFormArray.length === 0"
             >Добавьте хотя бы один товар в закупку</ng-container
@@ -57,27 +45,27 @@
             (updated)="
               updatePurchaseProductsFormArray($event)
             "></app-purchase-product-table>
-          <div class="dialog__mat-step-actions">
+          <app-wrapper textAlign="center" [marginTop]="10">
             <button
               mat-flat-button
               color="primary"
               (click)="openPurchaseProductEditorDialog()">
               Добавить товар
             </button>
-          </div>
-        </div>
+          </app-wrapper>
+        </app-wrapper>
       </mat-step>
       <mat-step>
-        <div class="dialog__mat-step-wrapper">
+        <app-wrapper textAlign="center" [marginTop]="20">
           <ng-template matStepLabel> Сохраняем? </ng-template>
           В любой момент закупку можно будет отредактировать
-          <div class="dialog__mat-step-actions">
+          <app-wrapper textAlign="center" [marginTop]="10">
             <button mat-flat-button color="primary" (click)="formSubmit()">
               Завершить
             </button>
-          </div>
-        </div>
+          </app-wrapper>
+        </app-wrapper>
       </mat-step>
-    </mat-vertical-stepper>
-  </div>
-</div>
+    </mat-vertical-stepper></app-dialog-body
+  >
+</app-dialog>

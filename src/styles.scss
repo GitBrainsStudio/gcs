@@ -8,10 +8,6 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-@import url('./app/styles/dialog.scss');
-@import url('./app/styles/table.scss');
-@import url('./app/styles/grid.scss');
-
 @font-face {
 	font-family: 'Circe';
 	src: url('assets/fonts/Circe-Thin.eot');

@@ -14,6 +14,10 @@ import { PurchaseProductTableComponent } from './components/purchase-product-tab
 import { PurchaseStatusComponent } from './components/purchase-status/purchase-status.component';
 import { PurchaseStatusPipe } from './pipes/purchase-status.pipe';
 import { PurchaseProductEditorComponent } from './components/purchase-product-editor/purchase-product-editor.component';
+import { DialogModule } from '../dialog/dialog.module';
+import { FormModule } from '../form/form.module';
+import { WrapperModule } from '../wrapper/wrapper.module';
+import { TableModule } from '../table/table.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,11 @@ import { PurchaseProductEditorComponent } from './components/purchase-product-ed
     FormsModule,
     ReactiveFormsModule,
     LayoutModule,
-    ProductModule
+    ProductModule,
+    DialogModule,
+    FormModule,
+    WrapperModule,
+    TableModule
   ],
   exports: [PurchaseTableComponent, PurchasesComponent]
 })

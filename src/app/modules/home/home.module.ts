@@ -6,6 +6,7 @@ import { LayoutModule } from '../layout/layout.module';
 import { ProductModule } from '../product/product.module';
 import { MaterialModule } from '../material/material.module';
 import { HomeActionsGridComponent } from './components/home-actions-grid/home-actions-grid.component';
+import { GridModule } from '../grid/grid.module';
 
 @NgModule({
   declarations: [HomeComponent, HomeActionsGridComponent],
@@ -14,7 +15,8 @@ import { HomeActionsGridComponent } from './components/home-actions-grid/home-ac
     HomeRoutingModule,
     MaterialModule,
     LayoutModule,
-    ProductModule
+    ProductModule,
+    GridModule
   ],
   providers: [],
   bootstrap: [HomeComponent]

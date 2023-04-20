@@ -1,0 +1,9 @@
+<div class="dialog">
+  <mat-toolbar class="dialog__toolbar" color="primary">
+    {{ title }}
+    <button mat-icon-button (click)="closed.next(true)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <ng-content></ng-content>
+</div>

@@ -1,43 +1,45 @@
-<div class="table-wrapper">
+<app-wrapper [padding]="0">
   <table
     mat-table
     [dataSource]="dataSource"
     class="table"
     *ngIf="dataSource.length > 0; else empty">
     <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef>Заметка</th>
-      <td mat-cell *matCellDef="let element">{{ element.Title }}</td>
+      <th mat-header-cell table-cell *matHeaderCellDef>Заметка</th>
+      <td mat-cell table-cell *matCellDef="let element">{{ element.Title }}</td>
     </ng-container>
 
     <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Дата закупки</th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell table-cell *matHeaderCellDef>Дата закупки</th>
+      <td mat-cell table-cell *matCellDef="let element">
         {{ element.Date | date : 'dd.MM.yyyy' }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="orderNumber">
-      <th mat-header-cell *matHeaderCellDef>Номер заказа</th>
-      <td mat-cell *matCellDef="let element">{{ element.OrderNumber }}</td>
+      <th mat-header-cell table-cell *matHeaderCellDef>Номер заказа</th>
+      <td mat-cell table-cell *matCellDef="let element">
+        {{ element.OrderNumber }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Статус закупки</th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell table-cell *matHeaderCellDef>Статус закупки</th>
+      <td mat-cell table-cell *matCellDef="let element">
         <app-purchase-status [value]="element.Status"></app-purchase-status>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="productsCount">
-      <th mat-header-cell *matHeaderCellDef>Количество товаров</th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell table-cell *matHeaderCellDef>Количество товаров</th>
+      <td mat-cell table-cell *matCellDef="let element">
         {{ getProductsCount(element) }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="actions" stickyEnd>
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell table-cell *matHeaderCellDef></th>
+      <td mat-cell table-cell *matCellDef="let element">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
         </button>
@@ -84,11 +86,11 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
   <ng-template #empty>
-    <div class="table-empty">
-      <div class="table-empty__row headline-1">Пока ничего нет 😉</div>
-      <div class="table-empty__row headline-1">
-        Добавьте свою первую закупку через кнопку сверху или нажмите сюда
-      </div>
-    </div>
-  </ng-template>
-</div>
+    <app-wrapper [textAlign]="'center'" [marginTop]="20">
+      Пока ничего нет 😉
+    </app-wrapper>
+    <app-wrapper [textAlign]="'center'">
+      Добавьте свою первую закупку через кнопку сверху или нажмите сюда
+    </app-wrapper>
+  </ng-template></app-wrapper
+>
