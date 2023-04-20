@@ -1,1 +1,41 @@
-<p>sale-editor works!</p>
+<app-dialog
+  [title]="sale ? 'Продажа' : 'Новая продажа'"
+  (closed)="closeDialog()">
+  <app-dialog-body>
+    <app-wrapper [marginTop]="10">
+      <ng-template matStepLabel>Основная информация о продаже</ng-template>
+      <app-form [formGroup]="mainFormGroup">
+        <mat-form-field appearance="outline" form-field>
+          <mat-label>Дата продажи</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="Date" />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" form-field>
+          <mat-label>Какой товар продали</mat-label>
+          <mat-select formControlName="ProductId">
+            <mat-option *ngFor="let product of products" [value]="product.Id">
+              {{ product.Title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" form-field>
+          <mat-label>Стоимость продажи</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="Price" /> </mat-form-field
+      ></app-form> </app-wrapper
+  ></app-dialog-body>
+  <app-dialog-actions>
+    <button
+      mat-raised-button
+      dialog-action
+      [disabled]="mainFormGroup.invalid"
+      (click)="formSubmit()">
+      Сохранить
+    </button>
+  </app-dialog-actions>
+</app-dialog>

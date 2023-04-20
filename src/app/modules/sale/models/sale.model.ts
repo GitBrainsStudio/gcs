@@ -1,6 +1,9 @@
+import { ProductBrief } from '../../product/models/product-brief.model';
+
 export interface Sale {
   Id: string;
-  ProductId: string;
   Price: number;
   Date: string;
+  ProductId: string;
+  ProductBrief: ProductBrief;
 }

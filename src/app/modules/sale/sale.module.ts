@@ -8,6 +8,10 @@ import { SaleRoutingModule } from './sale-routing.module';
 import { SalesComponent } from './pages/sales/sales.component';
 import { LayoutModule } from '../layout/layout.module';
 import { SaleAddButtonComponent } from './components/sale-add-button/sale-add-button.component';
+import { WrapperModule } from '../wrapper/wrapper.module';
+import { TableModule } from '../table/table.module';
+import { DialogModule } from '../dialog/dialog.module';
+import { FormModule } from '../form/form.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { SaleAddButtonComponent } from './components/sale-add-button/sale-add-bu
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    LayoutModule
+    LayoutModule,
+    WrapperModule,
+    TableModule,
+    DialogModule,
+    FormModule
   ],
   exports: [SalesComponent]
 })

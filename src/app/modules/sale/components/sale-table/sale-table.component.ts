@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { merge, mergeMap } from 'rxjs';
-import { PurchaseEditorComponent } from 'src/app/modules/purchase/components/purchase-editor/purchase-editor.component';
 import { PurchaseService } from 'src/app/modules/purchase/services/purchase.service';
 import { SaleEvents } from '../../events/sale.events';
 import { Sale } from '../../models/sale.model';
 import { SaleService } from '../../services/sale.service';
+import { SaleEditorComponent } from '../sale-editor/sale-editor.component';
 
 @Component({
   selector: 'app-sale-table',
@@ -44,6 +44,10 @@ export class SaleTableComponent implements OnInit {
           this.dataSource = v;
         }
       });
+  }
+
+  openSaleEditorDialog(sale: Sale) {
+    this.matDialog.open(SaleEditorComponent, { data: sale });
   }
 
   saleDelete(sale: Sale) {

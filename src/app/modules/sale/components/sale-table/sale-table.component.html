@@ -1,34 +1,38 @@
-<div class="table-wrapper">
+<app-wrapper [padding]="0">
   <table
     mat-table
     [dataSource]="dataSource"
     class="table"
     *ngIf="dataSource.length > 0; else empty">
     <ng-container matColumnDef="productTitle">
-      <th mat-header-cell *matHeaderCellDef>Наименование товара</th>
-      <td mat-cell *matCellDef="let element">{{ element.ProductTitle }}</td>
+      <th mat-header-cell table-cell *matHeaderCellDef>Наименование товара</th>
+      <td mat-cell table-cell *matCellDef="let element">
+        {{ element.ProductTitle }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef>Стоимость</th>
-      <td mat-cell *matCellDef="let element">{{ element.Price }}</td>
+      <th mat-header-cell table-cell *matHeaderCellDef>Стоимость</th>
+      <td mat-cell table-cell *matCellDef="let element">{{ element.Price }}</td>
     </ng-container>
 
     <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Дата закупки</th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell table-cell *matHeaderCellDef>Дата продажи</th>
+      <td mat-cell table-cell *matCellDef="let element">
         {{ element.Date | date : 'dd.MM.yyyy' }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="actions" stickyEnd>
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell table-cell *matHeaderCellDef></th>
+      <td mat-cell table-cell *matCellDef="let element">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>Подробнее о закупке</button>
+          <button mat-menu-item (click)="openSaleEditorDialog(element)">
+            Подробнее
+          </button>
         </mat-menu>
       </td>
     </ng-container>
@@ -37,9 +41,12 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
   <ng-template #empty>
-    <div class="table-empty">
-      <div class="table-empty__row headline-1">Пока ничего нет 😉</div>
-      <div class="table-empty__row headline-1">Добавьте свою первую прдажу</div>
-    </div>
+    <app-wrapper [textAlign]="'center'" [marginTop]="20"
+      >Пока ничего нет 😉</app-wrapper
+    >
+    <app-wrapper [textAlign]="'center'"
+      >Добавьте свою первую продажу через кнопку сверху или нажмите
+      сюда</app-wrapper
+    >
   </ng-template>
-</div>
+</app-wrapper>
