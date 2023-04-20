@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { merge, mergeMap, retry } from 'rxjs';
 import { PurchaseStatus } from '../../enums/purchase-status.enum';
+import { PurchaseAddButtonEvents } from '../../events/purchase-add-button.events';
 import { PurchaseEvents } from '../../events/purchase.events';
 import { Purchase } from '../../models/purchase.model';
 import { PurchaseService } from '../../services/purchase.service';
@@ -27,6 +28,7 @@ export class PurchaseTableComponent implements OnInit {
   constructor(
     public purchaseService: PurchaseService,
     private purchaseEvents: PurchaseEvents,
+    private purchaseAddButtonEvents: PurchaseAddButtonEvents,
     private matDialog: MatDialog
   ) {}
 
@@ -76,5 +78,9 @@ export class PurchaseTableComponent implements OnInit {
   updatePurchaseStatus(purchase: Purchase, status: PurchaseStatus) {
     purchase.Status = status;
     this.purchaseService.update(purchase);
+  }
+
+  purchaseAddButtonClicked() {
+    this.purchaseAddButtonEvents.clicked.next(true);
   }
 }

@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductsComponent } from './pages/products/products.component';
 import { LayoutModule } from '../layout/layout.module';
+import { WrapperModule } from '../wrapper/wrapper.module';
+import { TableModule } from '../table/table.module';
 
 @NgModule({
   declarations: [ProductsComponent, ProductTableComponent],
@@ -15,7 +17,9 @@ import { LayoutModule } from '../layout/layout.module';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    LayoutModule
+    LayoutModule,
+    WrapperModule,
+    TableModule
   ],
   exports: [ProductsComponent]
 })

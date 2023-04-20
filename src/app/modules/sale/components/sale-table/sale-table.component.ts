@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { merge, mergeMap } from 'rxjs';
 import { PurchaseService } from 'src/app/modules/purchase/services/purchase.service';
+import { SaleAddButtonEvents } from '../../events/sale-add-button.events';
 import { SaleEvents } from '../../events/sale.events';
 import { Sale } from '../../models/sale.model';
 import { SaleService } from '../../services/sale.service';
@@ -20,7 +21,8 @@ export class SaleTableComponent implements OnInit {
   constructor(
     public saleService: SaleService,
     private saleEvents: SaleEvents,
-    purchaseService: PurchaseService,
+    private saleAddButtonEvents: SaleAddButtonEvents,
+    private purchaseService: PurchaseService,
     private matDialog: MatDialog
   ) {
     this._purchaseService = purchaseService;
@@ -52,5 +54,9 @@ export class SaleTableComponent implements OnInit {
 
   saleDelete(sale: Sale) {
     this.saleService.delete(sale);
+  }
+
+  saleAddButtonClicked() {
+    this.saleAddButtonEvents.clicked.next(true);
   }
 }

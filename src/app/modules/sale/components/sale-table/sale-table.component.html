@@ -33,6 +33,7 @@
           <button mat-menu-item (click)="openSaleEditorDialog(element)">
             Подробнее
           </button>
+          <button mat-menu-item (click)="saleDelete(element)">Удалить</button>
         </mat-menu>
       </td>
     </ng-container>
@@ -46,7 +47,7 @@
     >
     <app-wrapper [textAlign]="'center'"
       >Добавьте свою первую продажу через кнопку сверху или нажмите
-      сюда</app-wrapper
+      <a (click)="saleAddButtonClicked()">сюда</a></app-wrapper
     >
   </ng-template>
 </app-wrapper>
