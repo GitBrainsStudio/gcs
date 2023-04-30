@@ -16,8 +16,14 @@
         <mat-form-field appearance="outline" form-field>
           <mat-label>Какой товар продали</mat-label>
           <mat-select formControlName="ProductId">
-            <mat-option *ngFor="let product of products" [value]="product.Id">
+            <mat-option
+              *ngFor="let product of products"
+              [value]="product.Id"
+              [disabled]="product.Status !== productStatus.Arrived">
               {{ product.Title }}
+              <ng-container *ngIf="product.Status !== productStatus.Arrived">
+                (не доступен для продажи)
+              </ng-container>
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -31,7 +37,7 @@
   ></app-dialog-body>
   <app-dialog-actions>
     <button
-      mat-raised-button
+      mat-flat-button
       dialog-action
       [disabled]="mainFormGroup.invalid"
       (click)="formSubmit()">
@@ -39,3 +45,6 @@
     </button>
   </app-dialog-actions>
 </app-dialog>
+<app-loader-spinner
+  [visible]="isLoading"
+  [text]="'Продажа сохраняется...'"></app-loader-spinner>

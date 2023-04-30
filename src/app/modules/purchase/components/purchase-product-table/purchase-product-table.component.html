@@ -7,20 +7,15 @@
     <ng-container matColumnDef="title">
       <th mat-header-cell table-cell *matHeaderCellDef>Наименование</th>
       <td mat-cell table-cell *matCellDef="let element">
-        {{ element.Product.Title }}
+        {{ element.Title }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="purchasePrice">
       <th mat-header-cell table-cell *matHeaderCellDef>Закупочная стоимость</th>
       <td mat-cell table-cell *matCellDef="let element">
-        {{ element.Product.PurchasePrice }}
+        {{ element.PurchasePrice }}
       </td>
-    </ng-container>
-
-    <ng-container matColumnDef="count">
-      <th mat-header-cell table-cell *matHeaderCellDef>Количество</th>
-      <td mat-cell table-cell *matCellDef="let element">{{ element.Count }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions" stickyEnd>
@@ -30,12 +25,13 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button
-            mat-menu-item
-            (click)="openPurchaseProductEditorDialog(element)">
+          <button mat-menu-item (click)="openProductEditorDialog(element)">
             Редактировать
           </button>
-          <button mat-menu-item (click)="purchaseProductDelete(element)">
+          <button
+            mat-menu-item
+            (click)="productDelete(element)"
+            [disabled]="element.Status === productStatus.Solded">
             Удалить
           </button>
         </mat-menu>

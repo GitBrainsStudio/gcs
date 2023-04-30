@@ -6,7 +6,7 @@ import { PurchaseStatus } from '../enums/purchase-status.enum';
 })
 export class PurchaseStatusPipe implements PipeTransform {
   transform(status: PurchaseStatus): string {
-    const unkmown = 'Статус не известен';
+    const unknown = 'Статус не известен';
     switch (status) {
       case PurchaseStatus.InProgress:
         return 'Подготавливается к отгрузке';
@@ -14,10 +14,8 @@ export class PurchaseStatusPipe implements PipeTransform {
         return 'В пути';
       case PurchaseStatus.Arrived:
         return 'Получен';
-      case PurchaseStatus.Unknown:
-        return unkmown;
       default:
-        return unkmown;
+        return unknown;
     }
   }
 }

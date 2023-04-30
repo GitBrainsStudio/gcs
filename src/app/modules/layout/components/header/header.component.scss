@@ -4,4 +4,7 @@
 {
     @include mat-elevation(4);
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

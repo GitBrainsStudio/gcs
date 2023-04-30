@@ -1,4 +1,4 @@
-<app-dialog title="Закупка" (closed)="closeDialog()">
+<app-dialog [title]="'Закупка'" (closed)="closeDialog()">
   <app-dialog-body>
     <mat-vertical-stepper [linear]="true">
       <mat-step [stepControl]="mainFormGroup">
@@ -36,36 +36,38 @@
       </mat-step>
       <mat-step [stepControl]="productsFormGroup">
         <app-wrapper textAlign="center" [marginTop]="20">
-          <ng-template matStepLabel>Какие товары закупаем?</ng-template>
+          <ng-template matStepLabel>Закупаемые товары</ng-template>
           <ng-container *ngIf="productsFormArray.length === 0"
             >Добавьте хотя бы один товар в закупку</ng-container
           >
           <app-purchase-product-table
             [dataSource]="productsFormArray.value"
             (updated)="
-              updatePurchaseProductsFormArray($event)
+              updateProductsFormArray($event)
             "></app-purchase-product-table>
           <app-wrapper textAlign="center" [marginTop]="10">
             <button
               mat-flat-button
               color="primary"
-              (click)="openPurchaseProductEditorDialog()">
+              (click)="openProductEditorDialog()">
               Добавить товар
-            </button>
-          </app-wrapper>
-        </app-wrapper>
-      </mat-step>
-      <mat-step>
-        <app-wrapper textAlign="center" [marginTop]="20">
-          <ng-template matStepLabel> Сохраняем? </ng-template>
-          В любой момент закупку можно будет отредактировать
-          <app-wrapper textAlign="center" [marginTop]="10">
-            <button mat-flat-button color="primary" (click)="formSubmit()">
-              Завершить
             </button>
           </app-wrapper>
         </app-wrapper>
       </mat-step>
     </mat-vertical-stepper></app-dialog-body
   >
+  <app-dialog-actions>
+    <button
+      mat-flat-button
+      dialog-action
+      color="primary"
+      (click)="formSubmit()"
+      [disabled]="mainFormGroup.invalid || productsFormGroup.invalid">
+      Сохранить
+    </button>
+  </app-dialog-actions>
 </app-dialog>
+<app-loader-spinner
+  [visible]="isLoading"
+  [text]="'Закупка сохраняется...'"></app-loader-spinner>

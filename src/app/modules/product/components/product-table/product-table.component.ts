@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { merge, mergeMap, switchMap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { finalize, merge, mergeMap } from 'rxjs';
+import { Settings } from 'src/app/core/settings/models/settings';
 import { PurchaseEditorComponent } from 'src/app/modules/purchase/components/purchase-editor/purchase-editor.component';
+import { PurchaseEvents } from 'src/app/modules/purchase/events/purchase.events';
 import { PurchaseService } from 'src/app/modules/purchase/services/purchase.service';
 import { ProductEvents } from '../../events/product.events';
 import { Product } from '../../models/product.model';
@@ -13,56 +16,92 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./product-table.component.scss']
 })
 export class ProductTableComponent implements OnInit {
+  @Input() isLoading: boolean = true;
+  @Output() isLoadingChanged = new EventEmitter<boolean>();
+  hasErrors: boolean = false;
   displayedColumns: string[] = [
     'title',
     'purchasePrice',
     'purchaseDate',
     'orderNumber',
+    'status',
     'actions'
   ];
-  dataSource: Product[] = [];
-  _purchaseService: PurchaseService | null = null;
+  dataSource: Product[] | null = null;
 
   constructor(
     public productService: ProductService,
     private productEvents: ProductEvents,
-    purchaseService: PurchaseService,
+    private purchaseEvents: PurchaseEvents,
+    private purchaseService: PurchaseService,
+    private matSnackBar: MatSnackBar,
     private matDialog: MatDialog
-  ) {
-    this._purchaseService = purchaseService;
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.productService.getAll().subscribe({
-      next: v => {
-        this.dataSource = v;
-      }
-    });
+    this.productService
+      .getAll()
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.isLoadingChanged.next(this.isLoading);
+        })
+      )
+      .subscribe({
+        next: v => {
+          this.hasErrors = false;
+          this.dataSource = v;
+        },
+        error: e => {
+          this.hasErrors = true;
+        }
+      });
 
     merge(
       this.productEvents.added,
       this.productEvents.updated,
-      this.productEvents.deleted
+      this.productEvents.deleted,
+      this.purchaseEvents.created,
+      this.purchaseEvents.updated,
+      this.purchaseEvents.deleted
     )
       .pipe(mergeMap(() => this.productService.getAll()))
       .subscribe({
         next: v => {
           this.dataSource = v;
+        },
+        error: e => {
+          this.hasErrors = true;
         }
       });
   }
 
-  productDelete(product: Product) {
-    this.productService.delete(product);
-  }
-
   openPurchaseEditorDialog(product: Product) {
-    this._purchaseService?.getById(product.PurchaseBrief.Id).subscribe({
-      next: v => {
-        const dialogRef = this.matDialog.open(PurchaseEditorComponent, {
-          data: v
-        });
-      }
-    });
+    this.isLoading = true;
+    this.isLoadingChanged.next(this.isLoading);
+
+    this.purchaseService
+      .getById(product.PurchaseBrief.Id)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.isLoadingChanged.next(this.isLoading);
+        })
+      )
+      .subscribe({
+        next: v => {
+          const dialogRef = this.matDialog.open(PurchaseEditorComponent, {
+            data: v,
+            width: '80vw',
+            maxWidth: '80vw'
+          });
+        },
+        error: v => {
+          this.matSnackBar.open(Settings.InternalErrorMessage, undefined, {
+            verticalPosition: 'bottom',
+            duration: 3000
+          });
+        }
+      });
   }
 }

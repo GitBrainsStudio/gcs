@@ -1,53 +1,87 @@
 <app-wrapper [padding]="0">
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    class="table"
-    *ngIf="dataSource.length > 0; else empty">
-    <ng-container matColumnDef="productTitle">
-      <th mat-header-cell table-cell *matHeaderCellDef>Наименование товара</th>
-      <td mat-cell table-cell *matCellDef="let element">
-        {{ element.ProductTitle }}
-      </td>
-    </ng-container>
+  <ng-container
+    *ngIf="isLoading && !dataSource; then loaderContent; else dataContent">
+  </ng-container>
+  <ng-template #loaderContent></ng-template>
+  <ng-template #dataContent>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="table"
+      *ngIf="dataSource && dataSource.length > 0; else emptyOrErrors">
+      <ng-container matColumnDef="productTitle">
+        <th mat-header-cell table-cell *matHeaderCellDef>
+          Наименование товара
+        </th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.ProductBrief.Title }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="price">
-      <th mat-header-cell table-cell *matHeaderCellDef>Стоимость</th>
-      <td mat-cell table-cell *matCellDef="let element">{{ element.Price }}</td>
-    </ng-container>
+      <ng-container matColumnDef="purchasePrice">
+        <th mat-header-cell table-cell *matHeaderCellDef>
+          Закупочная стоимость
+        </th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.ProductBrief.PurchasePrice }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell table-cell *matHeaderCellDef>Дата продажи</th>
-      <td mat-cell table-cell *matCellDef="let element">
-        {{ element.Date | date : 'dd.MM.yyyy' }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell table-cell *matHeaderCellDef>
+          Розничная стоимость
+        </th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.Price }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="actions" stickyEnd>
-      <th mat-header-cell table-cell *matHeaderCellDef></th>
-      <td mat-cell table-cell *matCellDef="let element">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="openSaleEditorDialog(element)">
-            Подробнее
+      <ng-container matColumnDef="profit">
+        <th mat-header-cell table-cell *matHeaderCellDef>Чистая прибыль</th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.Profit }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell table-cell *matHeaderCellDef>Дата продажи</th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.Date | date : 'dd.MM.yyyy' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell table-cell *matHeaderCellDef></th>
+        <td mat-cell table-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            [disabled]="isLoading">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-menu-item (click)="saleDelete(element)">Удалить</button>
-        </mat-menu>
-      </td>
-    </ng-container>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openSaleEditorDialog(element)">
+              Подробнее
+            </button>
+            <button mat-menu-item (click)="saleDelete(element)">Удалить</button>
+          </mat-menu>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-  <ng-template #empty>
-    <app-wrapper [textAlign]="'center'" [marginTop]="20"
-      >Пока ничего нет 😉</app-wrapper
-    >
-    <app-wrapper [textAlign]="'center'"
-      >Добавьте свою первую продажу через кнопку сверху или нажмите
-      <a (click)="saleAddButtonClicked()">сюда</a></app-wrapper
-    >
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <ng-template #emptyOrErrors>
+      <ng-container *ngIf="hasErrors; then errors; else empty"></ng-container>
+      <ng-template #errors
+        ><app-table-has-errors></app-table-has-errors
+      ></ng-template>
+      <ng-template #empty>
+        <app-table-empty-message>
+          Добавьте свою первую продажу через кнопку сверху или нажмите
+          <a (click)="saleAddButtonClicked()">сюда</a>
+        </app-table-empty-message></ng-template
+      >
+    </ng-template>
   </ng-template>
 </app-wrapper>

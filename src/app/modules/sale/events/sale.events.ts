@@ -3,7 +3,7 @@ import { Sale } from '../models/sale.model';
 
 @Injectable({ providedIn: 'root' })
 export class SaleEvents {
-  added = new EventEmitter<Sale>();
+  created = new EventEmitter<Sale>();
   deleted = new EventEmitter<Sale>();
   updated = new EventEmitter<Sale>();
 }

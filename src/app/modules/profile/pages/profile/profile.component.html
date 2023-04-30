@@ -1,0 +1,7 @@
+<app-header></app-header>
+<app-main [title]="'Мой профиль'" [progressBarEnabled]="isLoading">
+  <app-profile-editor
+    id="content"
+    [isLoading]="isLoading"
+    (isLoadingChanged)="isLoading = $event"></app-profile-editor>
+</app-main>

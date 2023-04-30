@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { SaleAddButtonEvents } from '../../events/sale-add-button.events';
-import { SaleService } from '../../services/sale.service';
 import { SaleEditorComponent } from '../sale-editor/sale-editor.component';
 
 @Component({
@@ -15,8 +14,7 @@ export class SaleAddButtonComponent implements OnDestroy {
 
   constructor(
     private matDialog: MatDialog,
-    private saleAddButtonEvents: SaleAddButtonEvents,
-    private saleService: SaleService
+    private saleAddButtonEvents: SaleAddButtonEvents
   ) {
     this.saleAddButtonEvents.clicked.pipe(takeUntil(this.destroy)).subscribe({
       next: (v: boolean) => {
@@ -31,11 +29,9 @@ export class SaleAddButtonComponent implements OnDestroy {
     this.destroy.complete();
   }
   openSaleEditorDialog() {
-    const dialogRef = this.matDialog.open(SaleEditorComponent);
-    dialogRef.afterClosed().subscribe(sale => {
-      if (sale) {
-        this.saleService.add(sale);
-      }
+    const dialogRef = this.matDialog.open(SaleEditorComponent, {
+      width: '80vw',
+      maxWidth: '80vw'
     });
   }
 }

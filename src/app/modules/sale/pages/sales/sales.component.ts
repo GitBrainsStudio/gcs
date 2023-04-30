@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './sales.component.html',
   styleUrls: ['./sales.component.scss']
 })
-export class SalesComponent {}
+export class SalesComponent {
+  isLoading: boolean = true;
+}

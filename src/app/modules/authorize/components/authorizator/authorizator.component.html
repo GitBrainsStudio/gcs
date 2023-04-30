@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ settingsService.applicationTitle }}</mat-card-title>
+    <mat-card-subtitle
+      >За доступом в систему обращаться по адресу:
+      gitbrains@gmail.com</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <app-wrapper [marginTop]="20" [padding]="0" [overflow]="'visible'">
+      <app-form [formGroup]="form" (keyup.enter)="formSubmit()">
+        <mat-form-field form-field appearance="outline">
+          <mat-label>Почтовый адрес</mat-label>
+          <input matInput formControlName="Email" />
+        </mat-form-field>
+        <mat-form-field form-field appearance="outline">
+          <mat-label>Пароль</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="Password" /> </mat-form-field
+      ></app-form>
+    </app-wrapper>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button
+      mat-button
+      [disabled]="form.invalid || this.formLoading"
+      (click)="formSubmit()">
+      Войти
+    </button>
+  </mat-card-actions>
+  <mat-card-footer>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="formLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

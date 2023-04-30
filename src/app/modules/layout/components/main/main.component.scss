@@ -1,6 +1,20 @@
+$progress-bar-height: 8px;
+
 .main-content
 {
     padding: 16px;
+}
+
+.main-content--h100
+{
+    height: calc(100% - $progress-bar-height);
+}
+
+.main-content--centered
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-toolbar,
@@ -19,4 +33,9 @@
 .main-toolbar__title
 {
     margin-bottom: -3px;
+}
+
+.main-progres-bar
+{
+    height: $progress-bar-height;
 }

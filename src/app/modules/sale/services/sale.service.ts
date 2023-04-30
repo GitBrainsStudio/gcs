@@ -1,51 +1,71 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { GuidService } from 'src/app/shared/services/guid.service';
+import { Observable, tap, delayWhen, interval } from 'rxjs';
+import { Settings } from 'src/app/core/settings/models/settings';
+import { environment } from 'src/environments/environment';
 import { SaleEvents } from '../events/sale.events';
 import { Sale } from '../models/sale.model';
 
 @Injectable({ providedIn: 'root' })
 export class SaleService {
-  private _storageKey = 'sales';
-  private _sales: Sale[] = [];
-  private _saleEvents: SaleEvents | null = null;
-  private _guidService: GuidService | null = null;
+  private _baseUrl = `${environment.API_URL}sales`;
 
-  constructor(saleEvents: SaleEvents, guidService: GuidService) {
-    this._saleEvents = saleEvents;
-    this._guidService = guidService;
-  }
-
-  add(sale: Sale) {
-    sale.Id = this._guidService?.generate() ?? '';
-    this._sales.push(sale);
-    this.updateSalesLocalStorage();
-    this._saleEvents?.added.next(sale);
-  }
+  constructor(private httpClient: HttpClient, private saleEvents: SaleEvents) {}
 
   getAll(): Observable<Sale[]> {
-    this._sales = this.getSalesFromLocalStorage();
-    return of(this._sales);
+    return this.httpClient
+      .get<Sale[]>(`${this._baseUrl}`)
+      .pipe(
+        delayWhen(() =>
+          Settings.HttpFakeDelayEnabled
+            ? interval(Settings.HttpFakeDelayInterval)
+            : interval(0)
+        )
+      );
   }
 
-  delete(sale: Sale) {
-    this._sales = this._sales.filter(x => x.Id != sale.Id);
-    this.updateSalesLocalStorage();
-    this._saleEvents?.deleted.next(sale);
+  getById(id: string): Observable<Sale> {
+    return this.httpClient
+      .get<Sale>(`${this._baseUrl}/${id}/`)
+      .pipe(
+        delayWhen(() =>
+          Settings.HttpFakeDelayEnabled
+            ? interval(Settings.HttpFakeDelayInterval)
+            : interval(0)
+        )
+      );
   }
 
-  update(sale: Sale) {
-    this._sales = this._sales.filter(x => x.Id != sale.Id);
-    this._sales.push(sale);
-    this.updateSalesLocalStorage();
-    this._saleEvents?.updated.next(sale);
+  create(sale: Sale): Observable<Sale> {
+    return this.httpClient.post<Sale>(`${this._baseUrl}`, sale).pipe(
+      delayWhen(() =>
+        Settings.HttpFakeDelayEnabled
+          ? interval(Settings.HttpFakeDelayInterval)
+          : interval(0)
+      ),
+      tap(() => this.saleEvents.created.next(sale))
+    );
   }
 
-  private updateSalesLocalStorage() {
-    localStorage.setItem(this._storageKey, JSON.stringify(this._sales));
+  update(sale: Sale): Observable<Sale> {
+    return this.httpClient.put<Sale>(`${this._baseUrl}`, sale).pipe(
+      delayWhen(() =>
+        Settings.HttpFakeDelayEnabled
+          ? interval(Settings.HttpFakeDelayInterval)
+          : interval(0)
+      ),
+      tap(() => this.saleEvents.updated.next(sale))
+    );
   }
 
-  private getSalesFromLocalStorage() {
-    return JSON.parse(localStorage.getItem(this._storageKey) || '[]');
+  delete(sale: Sale): Observable<Sale> {
+    return this.httpClient.delete<Sale>(`${this._baseUrl}/${sale.Id}/`).pipe(
+      delayWhen(() =>
+        Settings.HttpFakeDelayEnabled
+          ? interval(Settings.HttpFakeDelayInterval)
+          : interval(0)
+      ),
+      tap(() => this.saleEvents.deleted.next(sale))
+    );
   }
 }

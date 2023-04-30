@@ -1,0 +1,28 @@
+<app-form [formGroup]="form" (keyup.enter)="formSubmit()">
+  <mat-form-field form-field appearance="outline">
+    <mat-label>Почтовый адрес</mat-label>
+    <input matInput formControlName="Email" />
+  </mat-form-field>
+  <mat-form-field form-field appearance="outline">
+    <mat-label>Имя</mat-label>
+    <input matInput formControlName="FirstName" />
+  </mat-form-field>
+  <mat-form-field form-field appearance="outline">
+    <mat-label>Фамилия</mat-label>
+    <input matInput formControlName="LastName" />
+  </mat-form-field>
+  <mat-form-field form-field appearance="outline">
+    <mat-label>Отчество</mat-label>
+    <input matInput formControlName="MiddleName" />
+  </mat-form-field>
+  <app-form-actions>
+    <button
+      form-action
+      mat-flat-button
+      [disabled]="form.invalid || isLoading"
+      (click)="formSubmit()"
+      color="primary">
+      Сохранить
+    </button>
+  </app-form-actions>
+</app-form>

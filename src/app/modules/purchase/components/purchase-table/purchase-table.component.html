@@ -1,97 +1,115 @@
 <app-wrapper [padding]="0">
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    class="table"
-    *ngIf="dataSource.length > 0; else empty">
-    <ng-container matColumnDef="title">
-      <th mat-header-cell table-cell *matHeaderCellDef>Заметка</th>
-      <td mat-cell table-cell *matCellDef="let element">{{ element.Title }}</td>
-    </ng-container>
+  <ng-container
+    *ngIf="isLoading && !dataSource; then loaderContent; else dataContent">
+  </ng-container>
+  <ng-template #loaderContent> </ng-template>
+  <ng-template #dataContent
+    ><table
+      mat-table
+      [dataSource]="dataSource"
+      class="table"
+      *ngIf="dataSource && dataSource.length > 0; else emptyOrErrors">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell table-cell *matHeaderCellDef>Заметка</th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.Title }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell table-cell *matHeaderCellDef>Дата закупки</th>
-      <td mat-cell table-cell *matCellDef="let element">
-        {{ element.Date | date : 'dd.MM.yyyy' }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell table-cell *matHeaderCellDef>Дата закупки</th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.Date | date : 'dd.MM.yyyy' }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="orderNumber">
-      <th mat-header-cell table-cell *matHeaderCellDef>Номер заказа</th>
-      <td mat-cell table-cell *matCellDef="let element">
-        {{ element.OrderNumber }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="totalAmount">
+        <th mat-header-cell table-cell *matHeaderCellDef>
+          Общая сумма закупки
+        </th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.TotalAmount }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell table-cell *matHeaderCellDef>Статус закупки</th>
-      <td mat-cell table-cell *matCellDef="let element">
-        <app-purchase-status [value]="element.Status"></app-purchase-status>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="orderNumber">
+        <th mat-header-cell table-cell *matHeaderCellDef>Номер заказа</th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.OrderNumber }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="productsCount">
-      <th mat-header-cell table-cell *matHeaderCellDef>Количество товаров</th>
-      <td mat-cell table-cell *matCellDef="let element">
-        {{ getProductsCount(element) }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell table-cell *matHeaderCellDef>Статус закупки</th>
+        <td mat-cell table-cell *matCellDef="let element">
+          <app-purchase-status [value]="element.Status"></app-purchase-status>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="actions" stickyEnd>
-      <th mat-header-cell table-cell *matHeaderCellDef></th>
-      <td mat-cell table-cell *matCellDef="let element">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="openPurchaseEditorDialog(element)">
-            Подробнее
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell table-cell *matHeaderCellDef></th>
+        <td mat-cell table-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            [disabled]="isLoading">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-menu-item [matMenuTriggerFor]="changeStatusMenu">
-            Сменить статус на
-          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openPurchaseEditorDialog(element)">
+              Подробнее
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="changeStatusMenu">
+              Сменить статус на
+            </button>
 
-          <mat-menu #changeStatusMenu="matMenu">
-            <button
-              mat-menu-item
-              *ngIf="element.Status !== status.InProgress"
-              (click)="updatePurchaseStatus(element, status.InProgress)">
-              <app-purchase-status
-                [value]="status.InProgress"></app-purchase-status>
-            </button>
-            <button
-              mat-menu-item
-              *ngIf="element.Status !== status.Shipped"
-              (click)="updatePurchaseStatus(element, status.Shipped)">
-              <app-purchase-status
-                [value]="status.Shipped"></app-purchase-status>
-            </button>
-            <button
-              mat-menu-item
-              *ngIf="element.Status !== status.Arrived"
-              (click)="updatePurchaseStatus(element, status.Arrived)">
-              <app-purchase-status
-                [value]="status.Arrived"></app-purchase-status>
+            <mat-menu #changeStatusMenu="matMenu">
+              <button
+                mat-menu-item
+                *ngIf="element.Status !== status.InProgress"
+                (click)="updatePurchaseStatus(element, status.InProgress)">
+                <app-purchase-status
+                  [value]="status.InProgress"></app-purchase-status>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="element.Status !== status.Shipped"
+                (click)="updatePurchaseStatus(element, status.Shipped)">
+                <app-purchase-status
+                  [value]="status.Shipped"></app-purchase-status>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="element.Status !== status.Arrived"
+                (click)="updatePurchaseStatus(element, status.Arrived)">
+                <app-purchase-status
+                  [value]="status.Arrived"></app-purchase-status>
+              </button>
+            </mat-menu>
+
+            <button mat-menu-item (click)="purchaseDelete(element)">
+              Удалить
             </button>
           </mat-menu>
+        </td>
+      </ng-container>
 
-          <button mat-menu-item (click)="purchaseDelete(element)">
-            Удалить
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-  <ng-template #empty>
-    <app-wrapper [textAlign]="'center'" [marginTop]="20">
-      Пока ничего нет 😉
-    </app-wrapper>
-    <app-wrapper [textAlign]="'center'">
-      Добавьте свою первую закупку через кнопку сверху или нажмите
-      <a (click)="purchaseAddButtonClicked()">сюда</a>
-    </app-wrapper>
-  </ng-template></app-wrapper
->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <ng-template #emptyOrErrors>
+      <ng-container *ngIf="hasErrors; then errors; else empty"></ng-container>
+      <ng-template #errors
+        ><app-table-has-errors></app-table-has-errors>
+      </ng-template>
+      <ng-template #empty>
+        <app-table-empty-message
+          >Добавьте свою первую закупку через кнопку сверху или нажмите
+          <a (click)="purchaseAddButtonClicked()"
+            >сюда</a
+          ></app-table-empty-message
+        >
+      </ng-template>
+    </ng-template>
+  </ng-template>
+</app-wrapper>

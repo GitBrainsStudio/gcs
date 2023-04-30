@@ -1,87 +1,76 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { GuidService } from 'src/app/shared/services/guid.service';
-import { ProductService } from '../../product/services/product.service';
+import { Observable, tap, delayWhen, interval } from 'rxjs';
+import { Settings } from 'src/app/core/settings/models/settings';
+import { environment } from 'src/environments/environment';
 import { PurchaseEvents } from '../events/purchase.events';
-import { PurchaseProduct } from '../models/purchase-product.model';
 import { Purchase } from '../models/purchase.model';
 
 @Injectable({ providedIn: 'root' })
 export class PurchaseService {
-  private _storageKey = 'purchases';
-  private _purchases: Purchase[] = [];
-  private _purchaseEvents: PurchaseEvents | null = null;
-  private _productService: ProductService | null = null;
-  private _guidService: GuidService | null = null;
+  private baseUrl = `${environment.API_URL}purchases`;
 
   constructor(
-    purchaseEvents: PurchaseEvents,
-    productService: ProductService,
-    guidService: GuidService
-  ) {
-    this._purchaseEvents = purchaseEvents;
-    this._productService = productService;
-    this._guidService = guidService;
-  }
-
-  add(purchase: Purchase) {
-    purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
-      for (let index = 0; index < purchaseProduct.Count; index++) {
-        purchaseProduct.Product.Id = this._guidService?.generate() ?? '';
-        this._productService?.add(purchaseProduct.Product);
-      }
-    });
-
-    this._purchases.push(purchase);
-    this.updatePurchasesLocalStorage();
-    this._purchaseEvents?.added.next(purchase);
-  }
+    private httpClient: HttpClient,
+    private purchaseEvents: PurchaseEvents
+  ) {}
 
   getAll(): Observable<Purchase[]> {
-    this._purchases = this.getPurchasesFromLocalStorage();
-    return of(this._purchases);
+    return this.httpClient
+      .get<Purchase[]>(`${this.baseUrl}`)
+      .pipe(
+        delayWhen(() =>
+          Settings.HttpFakeDelayEnabled
+            ? interval(Settings.HttpFakeDelayInterval)
+            : interval(0)
+        )
+      );
   }
 
-  getById(id: string): Observable<Purchase | undefined> {
-    console.log(id);
-    this._purchases = this.getPurchasesFromLocalStorage();
-    return of(this._purchases.find(x => x.Id == id));
+  getById(id: string): Observable<Purchase> {
+    return this.httpClient
+      .get<Purchase>(`${this.baseUrl}/${id}/`)
+      .pipe(
+        delayWhen(() =>
+          Settings.HttpFakeDelayEnabled
+            ? interval(Settings.HttpFakeDelayInterval)
+            : interval(0)
+        )
+      );
   }
 
-  delete(purchase: Purchase) {
-    purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
-      this._productService?.deleteByPurchaseProductId(purchaseProduct.Id);
-    });
-
-    this._purchases = this._purchases.filter(x => x.Id != purchase.Id);
-    this.updatePurchasesLocalStorage();
-    this._purchaseEvents?.deleted.next(purchase);
+  create(purchase: Purchase) {
+    return this.httpClient.post<Purchase>(`${this.baseUrl}`, purchase).pipe(
+      delayWhen(() =>
+        Settings.HttpFakeDelayEnabled
+          ? interval(Settings.HttpFakeDelayInterval)
+          : interval(0)
+      ),
+      tap(() => this.purchaseEvents.created.next(purchase))
+    );
   }
 
   update(purchase: Purchase) {
-    purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
-      this._productService?.deleteByPurchaseProductId(purchaseProduct.Id);
-    });
-
-    this._purchases = this._purchases.filter(x => x.Id != purchase.Id);
-
-    purchase.Products.forEach((purchaseProduct: PurchaseProduct) => {
-      for (let index = 0; index < purchaseProduct.Count; index++) {
-        purchaseProduct.Product.Id = this._guidService?.generate() ?? '';
-        this._productService?.add(purchaseProduct.Product);
-      }
-    });
-
-    this._purchases.push(purchase);
-    this.updatePurchasesLocalStorage();
-    this._purchaseEvents?.updated.next(purchase);
+    return this.httpClient.put(`${this.baseUrl}`, purchase).pipe(
+      delayWhen(() =>
+        Settings.HttpFakeDelayEnabled
+          ? interval(Settings.HttpFakeDelayInterval)
+          : interval(0)
+      ),
+      tap(() => this.purchaseEvents.updated.next(purchase))
+    );
   }
 
-  private updatePurchasesLocalStorage() {
-    localStorage.setItem(this._storageKey, JSON.stringify(this._purchases));
-  }
-
-  private getPurchasesFromLocalStorage() {
-    return JSON.parse(localStorage.getItem(this._storageKey) || '[]');
+  delete(purchase: Purchase): Observable<Purchase> {
+    return this.httpClient
+      .delete<Purchase>(`${this.baseUrl}/${purchase.Id}/`)
+      .pipe(
+        delayWhen(() =>
+          Settings.HttpFakeDelayEnabled
+            ? interval(Settings.HttpFakeDelayInterval)
+            : interval(0)
+        ),
+        tap(() => this.purchaseEvents.deleted.next(purchase))
+      );
   }
 }

@@ -3,7 +3,6 @@ import {
   FormArray,
   FormBuilder,
   FormControl,
-  FormGroup,
   Validators
 } from '@angular/forms';
 import {
@@ -11,13 +10,16 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { finalize, delay } from 'rxjs';
+import { Settings } from 'src/app/core/settings/models/settings';
+import { ProductEditorComponent } from 'src/app/modules/product/components/product-editor/product-editor.component';
+import { Product } from 'src/app/modules/product/models/product.model';
 import { EnumHelper } from 'src/app/shared/helpers/enum.helper';
 import { GuidService } from 'src/app/shared/services/guid.service';
 import { PurchaseStatus } from '../../enums/purchase-status.enum';
-import { PurchaseBrief } from '../../models/purchase-brief.model';
-import { PurchaseProduct } from '../../models/purchase-product.model';
 import { Purchase } from '../../models/purchase.model';
-import { PurchaseProductEditorComponent } from '../purchase-product-editor/purchase-product-editor.component';
+import { PurchaseService } from '../../services/purchase.service';
 
 @Component({
   selector: 'app-purchase-editor',
@@ -30,13 +32,15 @@ export class PurchaseEditorComponent implements OnInit {
     private matDialogRef: MatDialogRef<PurchaseEditorComponent>,
     private guidService: GuidService,
     private matDialog: MatDialog,
+    private purchaseService: PurchaseService,
+    private matSnackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public purchase: Purchase
   ) {}
 
   ngOnInit(): void {
     if (this.purchase) {
       this.mainFormGroup.patchValue(this.purchase);
-      this.updatePurchaseProductsFormArray(this.purchase.Products);
+      this.updateProductsFormArray(this.purchase.Products);
     }
   }
 
@@ -49,17 +53,17 @@ export class PurchaseEditorComponent implements OnInit {
   });
 
   productsFormGroup = this.formBuilder.group({
-    PurchaseProducts: this.formBuilder.array(
+    Products: this.formBuilder.array(
       [],
       [Validators.required, Validators.minLength(1)]
     )
   });
 
-  formLoading: boolean = false;
+  isLoading: boolean = false;
   statusKeys = EnumHelper.parseKeys(PurchaseStatus);
 
   get productsFormArray(): FormArray {
-    return this.productsFormGroup.controls.PurchaseProducts as FormArray;
+    return this.productsFormGroup.controls.Products as FormArray;
   }
 
   formSubmit() {
@@ -67,41 +71,103 @@ export class PurchaseEditorComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+    this.mainFormGroup.disable();
+    this.productsFormGroup.disable();
+    this.matDialogRef.disableClose = true;
+
     const purchase = this.mainFormGroup.getRawValue() as Purchase;
-    purchase.Products = this.productsFormGroup
-      .get('PurchaseProducts')
-      ?.getRawValue();
+    purchase.Products = this.productsFormGroup.controls.Products.value.map(
+      v => v as Product
+    );
 
     if (this.purchase) {
       purchase.Id = this.purchase.Id;
-      this.updatePurchaseProductsFormArray(this.purchase.Products);
+      this.purchaseService
+        .update(purchase)
+        ?.pipe(
+          finalize(() => {
+            this.isLoading = false;
+            this.mainFormGroup.enable();
+            this.productsFormGroup.enable();
+            this.matDialogRef.disableClose = false;
+          })
+        )
+        .subscribe({
+          next: v => {
+            this.matSnackBar.open(
+              Settings.PurchaseUpdateSuccessSnackbarMessage,
+              undefined,
+              {
+                verticalPosition: 'bottom',
+                duration: 3000
+              }
+            );
+            this.matDialogRef.close(purchase);
+          },
+          error: e => {
+            this.matSnackBar.open(
+              e?.error?.message
+                ? e.error.message
+                : Settings.InternalErrorMessage,
+              undefined,
+              {
+                verticalPosition: 'bottom',
+                duration: 3000
+              }
+            );
+          }
+        });
     } else {
-      purchase.Id = this.guidService.generate();
+      this.purchaseService
+        .create(purchase)
+        ?.pipe(
+          finalize(() => {
+            this.isLoading = false;
+            this.mainFormGroup.enable();
+            this.productsFormGroup.enable();
+            this.matDialogRef.disableClose = false;
+          })
+        )
+        .subscribe({
+          next: v => {
+            this.matSnackBar.open(
+              Settings.PurchaseCreateSuccessSnackbarMessage,
+              undefined,
+              {
+                verticalPosition: 'bottom',
+                duration: 3000
+              }
+            );
+            this.matDialogRef.close(purchase);
+          },
+          error: e => {
+            this.matSnackBar.open(Settings.InternalErrorMessage, undefined, {
+              verticalPosition: 'bottom',
+              duration: 3000
+            });
+          }
+        });
     }
-
-    this.matDialogRef.close(purchase);
   }
 
   closeDialog() {
     this.matDialogRef.close();
   }
 
-  openPurchaseProductEditorDialog() {
-    const dialogRef = this.matDialog.open(PurchaseProductEditorComponent);
-    dialogRef.afterClosed().subscribe((purchaseProduct: PurchaseProduct) => {
+  openProductEditorDialog() {
+    const dialogRef = this.matDialog.open(ProductEditorComponent, {
+      width: '60vw',
+      maxWidth: '60vw'
+    });
+    dialogRef.afterClosed().subscribe((purchaseProduct: Product) => {
       if (purchaseProduct) {
-        purchaseProduct.Product.PurchaseBrief =
-          this.mainFormGroup.getRawValue() as PurchaseBrief;
         this.productsFormArray.push(new FormControl(purchaseProduct));
       }
     });
   }
 
-  updatePurchaseProductsFormArray(products: PurchaseProduct[]) {
-    products.map(v => {
-      v.Product.PurchaseBrief =
-        this.mainFormGroup.getRawValue() as PurchaseBrief;
-    });
+  updateProductsFormArray(products: Product[]) {
     this.productsFormArray.clear();
     products.map(v => this.productsFormArray.push(new FormControl(v)));
   }

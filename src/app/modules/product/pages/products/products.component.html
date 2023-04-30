@@ -1,4 +1,7 @@
 <app-header></app-header>
-<app-main [title]="'Товары'">
-  <app-product-table id="content"></app-product-table>
+<app-main [title]="'Товары'" [progressBarEnabled]="isLoading">
+  <app-product-table
+    id="content"
+    [isLoading]="isLoading"
+    (isLoadingChanged)="isLoading = $event"></app-product-table>
 </app-main>

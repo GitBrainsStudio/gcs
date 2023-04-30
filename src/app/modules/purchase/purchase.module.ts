@@ -8,16 +8,15 @@ import { PurchasesComponent } from './pages/purchases/purchases.component';
 import { LayoutModule } from '../layout/layout.module';
 import { PurchaseAddButtonComponent } from './components/purchase-add-button/purchase-add-button.component';
 import { PurchaseEditorComponent } from './components/purchase-editor/purchase-editor.component';
-import { PurchaseProductsEditorComponent } from './components/purchase-products-editor/purchase-products-editor.component';
 import { ProductModule } from '../product/product.module';
 import { PurchaseProductTableComponent } from './components/purchase-product-table/purchase-product-table.component';
 import { PurchaseStatusComponent } from './components/purchase-status/purchase-status.component';
 import { PurchaseStatusPipe } from './pipes/purchase-status.pipe';
-import { PurchaseProductEditorComponent } from './components/purchase-product-editor/purchase-product-editor.component';
 import { DialogModule } from '../dialog/dialog.module';
 import { FormModule } from '../form/form.module';
 import { WrapperModule } from '../wrapper/wrapper.module';
 import { TableModule } from '../table/table.module';
+import { LoaderModule } from '../loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -25,11 +24,9 @@ import { TableModule } from '../table/table.module';
     PurchasesComponent,
     PurchaseAddButtonComponent,
     PurchaseEditorComponent,
-    PurchaseProductsEditorComponent,
     PurchaseProductTableComponent,
     PurchaseStatusComponent,
-    PurchaseStatusPipe,
-    PurchaseProductEditorComponent
+    PurchaseStatusPipe
   ],
   imports: [
     CommonModule,
@@ -42,7 +39,8 @@ import { TableModule } from '../table/table.module';
     DialogModule,
     FormModule,
     WrapperModule,
-    TableModule
+    TableModule,
+    LoaderModule
   ],
   exports: [PurchaseTableComponent, PurchasesComponent]
 })

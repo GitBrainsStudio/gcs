@@ -12,6 +12,7 @@ import { WrapperModule } from '../wrapper/wrapper.module';
 import { TableModule } from '../table/table.module';
 import { DialogModule } from '../dialog/dialog.module';
 import { FormModule } from '../form/form.module';
+import { LoaderModule } from '../loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { FormModule } from '../form/form.module';
     WrapperModule,
     TableModule,
     DialogModule,
-    FormModule
+    FormModule,
+    LoaderModule,
+    TableModule
   ],
   exports: [SalesComponent]
 })

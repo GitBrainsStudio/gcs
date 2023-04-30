@@ -3,9 +3,8 @@ import { ProductStatus } from '../enums/purchase-status.enum';
 
 export interface Product {
   Id: string;
-  Status: ProductStatus;
   Title: string;
   PurchasePrice: number;
+  Status: ProductStatus;
   PurchaseBrief: PurchaseBrief;
-  PurchaseProductId: string;
 }

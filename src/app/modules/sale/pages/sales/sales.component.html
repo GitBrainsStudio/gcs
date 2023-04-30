@@ -1,5 +1,8 @@
 <app-header></app-header>
-<app-main [title]="'Продажи'">
+<app-main [title]="'Продажи'" [progressBarEnabled]="isLoading">
   <app-sale-add-button id="action"></app-sale-add-button>
-  <app-sale-table id="content"></app-sale-table>
+  <app-sale-table
+    id="content"
+    [isLoading]="isLoading"
+    (isLoadingChanged)="isLoading = $event"></app-sale-table>
 </app-main>

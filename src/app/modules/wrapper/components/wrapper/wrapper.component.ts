@@ -9,5 +9,5 @@ export class WrapperComponent {
   @Input() padding: number = 10;
   @Input() marginTop: number = 0;
   @Input() textAlign: string = 'left';
-  @Input() overflow: string = 'auto';
+  @Input() overflow: 'auto' | 'visible' = 'auto';
 }

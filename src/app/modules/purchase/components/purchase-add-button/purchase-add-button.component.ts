@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { PurchaseAddButtonEvents } from '../../events/purchase-add-button.events';
-import { PurchaseService } from '../../services/purchase.service';
 import { PurchaseEditorComponent } from '../purchase-editor/purchase-editor.component';
 
 @Component({
@@ -15,8 +14,7 @@ export class PurchaseAddButtonComponent implements OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private purchaseAddButtonEvents: PurchaseAddButtonEvents,
-    private purchaseService: PurchaseService
+    private purchaseAddButtonEvents: PurchaseAddButtonEvents
   ) {
     this.purchaseAddButtonEvents.clicked
       .pipe(takeUntil(this.destroy))
@@ -35,11 +33,9 @@ export class PurchaseAddButtonComponent implements OnDestroy {
   }
 
   openPurchaseEditorDialog() {
-    const dialogRef = this.dialog.open(PurchaseEditorComponent);
-    dialogRef.afterClosed().subscribe(purchase => {
-      if (purchase) {
-        this.purchaseService.add(purchase);
-      }
+    this.dialog.open(PurchaseEditorComponent, {
+      width: '80vw',
+      maxWidth: '80vw'
     });
   }
 }

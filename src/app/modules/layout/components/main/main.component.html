@@ -9,6 +9,16 @@
   </div>
   <ng-content select="#action"></ng-content>
 </mat-toolbar>
-<div class="main-content">
+<div class="main-progres-bar">
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="progressBarEnabled"></mat-progress-bar>
+</div>
+<div
+  class="main-content"
+  [ngClass]="{
+    'main-content--centered': contentCentered,
+    'main-content--h100': h100
+  }">
   <ng-content select="#content"></ng-content>
 </div>

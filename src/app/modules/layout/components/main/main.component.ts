@@ -7,4 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class MainComponent {
   @Input() title: string = '';
+  @Input() progressBarEnabled: boolean = false;
+  @Input() contentCentered: boolean = false;
+  @Input() h100: boolean = false;
 }

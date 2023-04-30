@@ -8,9 +8,20 @@ import { ProductsComponent } from './pages/products/products.component';
 import { LayoutModule } from '../layout/layout.module';
 import { WrapperModule } from '../wrapper/wrapper.module';
 import { TableModule } from '../table/table.module';
+import { ProductStatusComponent } from './components/product-status/product-status.component';
+import { ProductStatusPipe } from './pipes/product-status.pipe';
+import { ProductEditorComponent } from './components/product-editor/product-editor.component';
+import { DialogModule } from '../dialog/dialog.module';
+import { FormModule } from '../form/form.module';
 
 @NgModule({
-  declarations: [ProductsComponent, ProductTableComponent],
+  declarations: [
+    ProductsComponent,
+    ProductTableComponent,
+    ProductStatusComponent,
+    ProductStatusPipe,
+    ProductEditorComponent
+  ],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -19,7 +30,9 @@ import { TableModule } from '../table/table.module';
     ReactiveFormsModule,
     LayoutModule,
     WrapperModule,
-    TableModule
+    TableModule,
+    DialogModule,
+    FormModule
   ],
   exports: [ProductsComponent]
 })

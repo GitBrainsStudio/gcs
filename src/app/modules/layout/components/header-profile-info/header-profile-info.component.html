@@ -1,0 +1,7 @@
+<button mat-icon-button [matMenuTriggerFor]="profileMenu">
+  <mat-icon>account_circle</mat-icon>
+</button>
+<mat-menu #profileMenu="matMenu">
+  <button mat-menu-item [routerLink]="['/profile']">Мой профиль</button>
+  <button mat-menu-item (click)="logout()">Выйти</button>
+</mat-menu>

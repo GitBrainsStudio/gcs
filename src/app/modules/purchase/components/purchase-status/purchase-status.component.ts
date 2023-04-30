@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PurchaseStatus } from '../../enums/purchase-status.enum';
 
 @Component({
@@ -7,5 +7,5 @@ import { PurchaseStatus } from '../../enums/purchase-status.enum';
   styleUrls: ['./purchase-status.component.scss']
 })
 export class PurchaseStatusComponent {
-  @Input() value: PurchaseStatus = PurchaseStatus.Unknown;
+  @Input() value: PurchaseStatus = PurchaseStatus.InProgress;
 }

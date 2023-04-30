@@ -1,11 +1,12 @@
+import { Product } from '../../product/models/product.model';
 import { PurchaseStatus } from '../enums/purchase-status.enum';
-import { PurchaseProduct } from './purchase-product.model';
 
 export interface Purchase {
   Id: string;
   Title: string;
   Date: string;
   OrderNumber: string;
+  TotalAmount: number;
   Status: PurchaseStatus;
-  Products: PurchaseProduct[];
+  Products: Product[];
 }

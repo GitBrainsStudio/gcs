@@ -6,4 +6,5 @@ export interface PurchaseBrief {
   Title: string;
   Date: string;
   OrderNumber: string;
+  TotalAmount: number;
 }
