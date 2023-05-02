@@ -7,6 +7,7 @@ export interface Purchase {
   Date: string;
   OrderNumber: string;
   TotalAmount: number;
+  ProductsCount: number;
   Status: PurchaseStatus;
   Products: Product[];
 }

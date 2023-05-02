@@ -34,8 +34,8 @@ export class PurchaseAddButtonComponent implements OnDestroy {
 
   openPurchaseEditorDialog() {
     this.dialog.open(PurchaseEditorComponent, {
-      width: '80vw',
-      maxWidth: '80vw'
+      width: '98vw',
+      maxWidth: '98vw'
     });
   }
 }

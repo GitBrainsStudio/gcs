@@ -92,8 +92,8 @@ export class ProductTableComponent implements OnInit {
         next: v => {
           const dialogRef = this.matDialog.open(PurchaseEditorComponent, {
             data: v,
-            width: '80vw',
-            maxWidth: '80vw'
+            width: '98vw',
+            maxWidth: '98vw'
           });
         },
         error: v => {

@@ -9,7 +9,7 @@ import { AuthenticationService } from 'src/app/core/authentication/services/auth
 })
 export class HeaderProfileInfoComponent {
   constructor(
-    private authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     private router: Router
   ) {}
 

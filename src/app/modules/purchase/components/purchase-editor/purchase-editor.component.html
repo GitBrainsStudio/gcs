@@ -35,22 +35,20 @@
         </app-wrapper>
       </mat-step>
       <mat-step [stepControl]="productsFormGroup">
-        <app-wrapper textAlign="center" [marginTop]="20">
+        <app-wrapper textAlign="center" [marginTop]="20" [showBorder]="true">
           <ng-template matStepLabel>Закупаемые товары</ng-template>
-          <ng-container *ngIf="productsFormArray.length === 0"
-            >Добавьте хотя бы один товар в закупку</ng-container
-          >
           <app-purchase-product-table
             [dataSource]="productsFormArray.value"
             (updated)="
               updateProductsFormArray($event)
             "></app-purchase-product-table>
-          <app-wrapper textAlign="center" [marginTop]="10">
+          <app-wrapper textAlign="center">
             <button
-              mat-flat-button
+              matTooltip="Добавить товар"
+              mat-icon-button
               color="primary"
               (click)="openProductEditorDialog()">
-              Добавить товар
+              <mat-icon>add</mat-icon>
             </button>
           </app-wrapper>
         </app-wrapper>

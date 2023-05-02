@@ -21,9 +21,6 @@
               [value]="product.Id"
               [disabled]="product.Status !== productStatus.Arrived">
               {{ product.Title }}
-              <ng-container *ngIf="product.Status !== productStatus.Arrived">
-                (не доступен для продажи)
-              </ng-container>
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -37,6 +34,7 @@
   ></app-dialog-body>
   <app-dialog-actions>
     <button
+      color="primary"
       mat-flat-button
       dialog-action
       [disabled]="mainFormGroup.invalid"

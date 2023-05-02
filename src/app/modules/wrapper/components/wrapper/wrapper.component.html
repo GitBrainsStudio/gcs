@@ -1,6 +1,9 @@
 <div
   class="wrapper wrapper--p-{{ padding }} wrapper--text-align-{{
     textAlign
-  }} wrapper--margin-top-{{ marginTop }} wrapper--overflow-{{ overflow }}">
+  }} wrapper--margin-top-{{ marginTop }} wrapper--overflow-{{
+    overflow
+  }} wrapper--max-height-{{ maxHeight }}"
+  [ngClass]="{ 'wrapper--bordered': showBorder }">
   <ng-content></ng-content>
 </div>

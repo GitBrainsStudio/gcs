@@ -10,4 +10,6 @@ export class WrapperComponent {
   @Input() marginTop: number = 0;
   @Input() textAlign: string = 'left';
   @Input() overflow: 'auto' | 'visible' = 'auto';
+  @Input() showBorder: boolean = false;
+  @Input() maxHeight: number = 100;
 }

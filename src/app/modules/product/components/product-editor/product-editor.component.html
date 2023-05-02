@@ -14,7 +14,11 @@
     ></app-form>
   </app-dialog-body>
   <app-dialog-actions
-    ><button mat-raised-button dialog-action (click)="formSubmit()">
+    ><button
+      mat-flat-button
+      color="primary"
+      dialog-action
+      (click)="formSubmit()">
       {{ product ? 'Сохранить изменения' : 'Сохранить' }}
     </button></app-dialog-actions
   >

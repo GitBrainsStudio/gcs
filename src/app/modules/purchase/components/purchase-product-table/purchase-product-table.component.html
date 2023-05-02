@@ -1,9 +1,5 @@
-<app-wrapper [padding]="0">
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    class="table"
-    *ngIf="dataSource.length > 0">
+<app-wrapper [padding]="0" [maxHeight]="30" *ngIf="dataSource.length > 0">
+  <table mat-table [dataSource]="dataSource" class="table">
     <ng-container matColumnDef="title">
       <th mat-header-cell table-cell *matHeaderCellDef>Наименование</th>
       <td mat-cell table-cell *matCellDef="let element">
@@ -38,7 +34,7 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </app-wrapper>

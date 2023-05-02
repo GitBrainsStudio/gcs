@@ -24,6 +24,7 @@ export class PurchaseTableComponent implements OnInit {
     'date',
     'orderNumber',
     'totalAmount',
+    'productsCount',
     'status',
     'actions'
   ];
@@ -113,8 +114,8 @@ export class PurchaseTableComponent implements OnInit {
   openPurchaseEditorDialog(purchase: Purchase) {
     const dialogRef = this.matDialog.open(PurchaseEditorComponent, {
       data: purchase,
-      width: '80vw',
-      maxWidth: '80vw'
+      width: '98vw',
+      maxWidth: '98vw'
     });
   }
 

@@ -32,6 +32,15 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="productsCount">
+        <th mat-header-cell table-cell *matHeaderCellDef>
+          Количество товаров в закупке
+        </th>
+        <td mat-cell table-cell *matCellDef="let element">
+          {{ element.ProductsCount }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="orderNumber">
         <th mat-header-cell table-cell *matHeaderCellDef>Номер заказа</th>
         <td mat-cell table-cell *matCellDef="let element">
